@@ -1,0 +1,8 @@
+.btnLink {
+    background: rgb(207, 186, 186);
+    border: none;
+    width: 200px;
+    height: 40px;
+    border-radius: 10px;
+    color: #fff;
+}

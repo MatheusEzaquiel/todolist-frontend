@@ -1,0 +1,140 @@
+section.section {
+    height: auto;
+    width: 100%;
+}
+
+.headerMenu {
+    width: 80%;
+    height: 10%;
+    margin: 0 auto;
+    padding-bottom: 2rem;
+}
+
+.containerDefault {
+    width: 80%;
+    height: auto;
+    display: flex;
+    margin: 0 auto; 
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+    gap: 4rem;
+}
+
+
+.formEdit {
+    width: 50%;
+    height: 800px;
+    background: rgba(255, 255, 255, 0.121);
+    margin: 6rem auto 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.formEdit h2 {
+    align-self: center;
+    font-size: 3rem;
+}
+
+.formEdit form {
+    width: 80%;
+    height: 300px;
+    background: #fff;
+    margin: 5% auto;
+    padding: 2rem;
+    box-shadow: 14px 15px 33px 8px rgba(194,186,194,0.71);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem 0;
+}
+
+.inputGroup label {
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: var(--black);
+}
+
+.inputGroup input {
+    width: 95%;
+    height: 2rem;
+    padding: 1rem;
+    margin-top: 0rem;
+    background: var(--grayDefault1);
+    color: var(--black);
+    border: none;
+    outline: none;
+    transition: 1s;
+    font-size: 1.2rem;
+}
+
+.inputGroup input:focus {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+
+.btnFlex {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.formEdit .btnForm {
+    background: #EE8000;
+    border: none;
+    width: 200px;
+    height: 60px;
+    border-radius: 15px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-right: 2rem;
+    color: #fff;
+    align-self: flex-end;
+}
+
+
+section.section {
+    height: auto;
+    width: 100%;
+}
+.headerMenu {
+    width: 80%;
+    height: 10%;
+    margin: 0 auto;
+    padding-bottom: 2rem;
+} 
+
+.headerMenu h2 {
+    text-align: center;
+    font-size: 3.2rem;
+}
+
+.containerDefault {
+    width: 80%;
+    height: auto;
+    display: flex;
+    margin: 0 auto; 
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+    gap: 4rem;
+}
+
+.btnBack {
+    color: var(--whiteDefault) !important;
+    border: solid 3px #EE8000 !important;
+}
+
+.btnEdit {
+    background: var(--greenDefault) !important;
+}

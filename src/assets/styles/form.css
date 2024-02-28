@@ -1,0 +1,122 @@
+.form {
+    width: 60%;
+    height: 800px;
+    background: rgba(255, 255, 255, 0.121);
+    margin: 6rem auto 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.form form {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 700px;
+    margin: 0 auto;
+    padding: 2rem;
+    box-shadow: 14px 15px 33px 8px rgba(194,186,194,0.71);
+}
+
+.form h2 {
+    align-self: center;
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+.form h2 span {
+    color: #ee8000;
+    font-weight: 700;
+    font-size: 2.5rem;
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem 0;
+    box-sizing: border-box;
+}
+
+.inputGroup label {
+    margin-left: 1rem;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.inputGroup input {
+    width: 94%;
+    height: 2rem;
+    padding: 1rem;
+    margin-top: 0.8rem;
+    background: var(--grayDefault1);
+    color: var(--whiteDefault);
+    border: none;
+    outline: none;
+    transition: 1s;
+    font-size: 1.2rem;
+}
+
+.inputGroup input:focus, textarea {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+input[type="time"] {
+    width: 150px; /* Ajuste o valor conforme necessário */
+}
+
+input[type="date"] {
+    width: 250px; /* Ajuste o valor conforme necessário */
+}
+  
+
+input[type="date"]:after {
+    color: rgb(81, 81, 81);
+    content: attr(placeholder) !important;
+    margin-right: 0.5em;
+}
+
+input[type="date"]:focus:before {
+    content: '' !important;
+}
+
+.dateTimeBox {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+textarea {
+    resize: none;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    border-bottom: solid 2px rgba(0, 0, 0,0.8);
+    transition: 1s;
+    padding-left: 1rem;
+    font-size: 1.2rem;
+    overflow: hidden;
+}
+
+.btnFlex {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form .btnForm {
+    background: #EE8000;
+    border: none;
+    width: 150px;
+    height: 60px;
+    border-radius: 15px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-right: 2rem;
+    color: #fff;
+    align-self: center;
+}
+
+.btnBack {
+    background: #fff  !important;
+    color: #ee8000  !important;
+    border: solid 3px #EE8000 !important;
+}

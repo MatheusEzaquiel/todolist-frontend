@@ -1,0 +1,18 @@
+.optionBox {
+    width: 15vw;
+    height: 10vh;
+    background: #3f3f3f;
+    color: #bdb9b9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    font-size: 1.5rem;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.optionBox:hover {
+    background: #ae5309;
+    color: #fefdfd;
+    transition: 1.5s;
+}

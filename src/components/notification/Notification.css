@@ -1,0 +1,91 @@
+.notification{
+    position: fixed;
+    bottom: 3rem;
+    right: 3rem;
+    width: 25vw;
+    height: 20vh;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    animation-name: go-back;
+    animation-duration: 1.5s;
+    animation-delay: 0;
+    z-index: 10;
+}
+
+.glassEffect {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+}
+
+.notificationHeader{
+    padding: 10px;
+    width: 100%;
+    height: 25%;
+    position: relative;
+    border-right: none;
+    display: flex;
+}
+
+.iconAndTitle {
+    display: flex;
+    width: 80%;
+    justify-content: start;
+    align-items: center;
+    margin-left: 1rem;
+}
+
+.notificationHeader svg {
+    font-size: 2rem;
+    color: var(--orangeFire);
+    margin-right: 0.5rem;
+}
+
+.notificationHeader .title {
+    color: var(--orangeFire);
+    font-size: 1.6rem;
+}
+
+.notificationContent {
+    padding: 10px;
+    width: 100%;
+    height: 75%;
+    background-color: #EE8000;
+    background: linear-gradient(90deg, #dc7c0f 0%, #e05f09 35%, rgb(200, 42, 6) 100%);
+}
+
+.notificationContent .text {
+    margin: 0;
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 1.8rem;
+    color: #fff;
+}
+
+.btnCloseNotification {
+    
+    background: none;
+    /*
+    border: none;
+    width: 120px;
+    height: 40px;
+    border-radius: 15px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-right: 2rem;
+    color: #9a5302;
+    position: absolute;
+    bottom: 20px;
+    right: 18%;*/
+}
+
+@keyframes go-back {
+    0% {
+        transform: translateX(100px);
+    }
+    
+    100% {
+        transform: translateX(0);
+    }
+}

@@ -1,0 +1,25 @@
+.navbar {
+    width: 30%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    list-style: none;
+}
+
+.navbar li {
+    font-size: 1.5rem;
+    color: #fff;
+    margin-left: 2rem;
+    flex-wrap: nowrap;
+}
+
+.navbar li svg {
+    font-size: 2rem;
+}
+
+.navbar .username {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #fff;
+}

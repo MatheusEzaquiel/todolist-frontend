@@ -1,0 +1,39 @@
+.section {
+    background: #c5bdbd;
+    width: 100vw;
+    height: 100vh;
+    padding: 1rem 2rem;
+    box-sizing: border-box;
+}
+
+.content {
+    width: 80%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    padding: 0 1rem;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.content .imageError {
+    width: 30%;
+    margin: 0;
+}
+
+.content .title {
+    font-size: 7rem;
+    margin-bottom: 1rem;
+    color: var(--gray5);
+}
+
+.content .text {
+    font-size: 1.5rem;
+}
+
+.content .errorMessage {
+    color: var(--orangeFire);
+    border-bottom: solid 3px var(--orangeFire);
+}

@@ -1,0 +1,35 @@
+.btn {
+
+}
+
+.btnClassic {
+    width: 80%;
+    height: 70px;
+    border: none;
+    margin-top: 1rem;
+    
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: linear-gradient(30deg, var(--orange1), var(--orangeFire));
+    border-radius: 1rem;
+    font-size: 1.2rem;
+    letter-spacing: 0.1rem;
+    font-weight: 600;
+    color: #fff;
+
+    p {
+        font-size: 1.5rem;
+    }
+
+    span{
+        font-size: 3rem;
+        margin-right: 1rem;
+    }
+}
+
+.btnClassic:hover {
+    background: linear-gradient(30deg, var(--orangeDisable), var(--orangeFire));
+}
