@@ -4,10 +4,10 @@ import { useState, useEffect } from "react"
 
 import styles from "./CreateTask.module.css";
 
-import { Notification } from "../../../components/notification/Notification";
-import { ChecklistService } from "../../../services/api/checklists/ChecklistService";
-import { TaskService } from "./../../../services/api/taskPriority/TaskPriorityService";
-import { TaskPriorityService } from "../../../services/api/taskPriority/TaskPriorityService";
+import { Notification } from "../../../components/notification/Notification"
+import { ChecklistService } from "../../../services/api/checklists/ChecklistService"
+import { TaskService } from "./../../../services/api/tasks/taskService"
+import { TaskPriorityService } from "./../../../services/api/taskPriority/TaskPriorityService"
 
 export const CreateTask = () => {
 
@@ -16,28 +16,28 @@ export const CreateTask = () => {
 
     const { checklistId } = useParams();
 
-    const [ checklistSelected, setChecklistSelected ] = useState(null);
+    const [ checklistSelected, setChecklistSelected ] = useState(null)
 
-    const [ title, setTitle] = useState("");
-    const [ description, setDescription] = useState("");
-    const [ priority, setPriority] = useState("no");
+    const [ title, setTitle] = useState("")
+    const [ description, setDescription] = useState("")
+    const [ priority, setPriority] = useState("no")
 
-    const [ startAtDate, setStartAtDate] = useState("");
-    const [ startAtTime, setStartAtTime] = useState("");
+    const [ startAtDate, setStartAtDate] = useState("")
+    const [ startAtTime, setStartAtTime] = useState("")
 
-    const [ endAtDate, setEndAtDate] = useState("");
-    const [ endAtTime, setEndAtTime] = useState("");
+    const [ endAtDate, setEndAtDate] = useState("")
+    const [ endAtTime, setEndAtTime] = useState("")
 
-    const [priorities, setPriorities] = useState();
+    const [priorities, setPriorities] = useState()
 
     
     const getChecklist = async() => {
 
         try {
             
-            const res = await ChecklistService.getById(checklistId);
+            const res = await ChecklistService.getById(checklistId)
 
-            setChecklistSelected(res);
+            setChecklistSelected(res)
 
         } catch (ex) {
             console.log(ex.message)
@@ -49,7 +49,7 @@ export const CreateTask = () => {
 
         try {
 
-            const res = await TaskPriorityService.list();
+            const res = await TaskPriorityService.list()
             setPriorities(res);
             
             setPriority(res[0].priority)
@@ -62,11 +62,11 @@ export const CreateTask = () => {
 
     const colorPriority = (priority) => {
 
-        if(priority == "high") return "#d90b1f";
-        if(priority == "medium") return "#e3770b";
-        if(priority == "low") return "#e3dc0b";
-        if(priority == "no") return "#8f8d8d";
-        if(priority == "" || priority == null) return "#8f8d8d";
+        if(priority == "high") return "#d90b1f"
+        if(priority == "medium") return "#e3770b"
+        if(priority == "low") return "#e3dc0b"
+        if(priority == "no") return "#8f8d8d"
+        if(priority == "" || priority == null) return "#8f8d8d"
 
     }
     
@@ -88,7 +88,7 @@ export const CreateTask = () => {
 
         try {
 
-            await TaskService.create(dataToCreate);
+            await TaskService.create(dataToCreate)
            
             setResultApi({status: "ok", message: "Task was created!"})
 
@@ -98,19 +98,19 @@ export const CreateTask = () => {
         } catch (ex) {
             setResultApi({status: "error", message: ex.message})
         } finally {
-            setIsOpenNotification(true);
+            setIsOpenNotification(true)
         }
     
 
     }
 
     const blockFormRefresh = (e) => {
-        e.preventDefault();
-        createTask();
+        e.preventDefault()
+        createTask()
     }
 
     useEffect(() => { 
-        getChecklist();
+        getChecklist()
          getAllPriorities() 
     },[])
 
