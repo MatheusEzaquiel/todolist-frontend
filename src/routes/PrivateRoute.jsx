@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
 import useDataAuth from "../app/useDataAuth";
-import { Header } from "../assets/Header/Header";
+import { Header } from "../components/Header/Header";
 import { UserService } from "../services/api/users/UserService";
 
 const PrivateRoute = ({children}) => {
@@ -13,7 +13,7 @@ const PrivateRoute = ({children}) => {
         isAuthenticated = true;
     }
 
-    isAuthenticated ? children : <Navigate to="/"/>;
+    isAuthenticated ? children : <Navigate to="/todolist-frontend/login"/>;
     
     if(isAuthenticated) {
 
@@ -21,8 +21,8 @@ const PrivateRoute = ({children}) => {
 
     } else {
 
-        UserService.logout();
-        return <Navigate to="/"/>;
+        UserService.logout()
+        return <Navigate to="/todolist-frontend/login"/>;
 
     }
 

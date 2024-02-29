@@ -1,13 +1,12 @@
 import styles from './Task.module.css';
 
 import { useEffect, useState } from 'react';
-import { useNavigate,  } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { GoChevronDown } from "react-icons/go";
 import { MdEdit } from "react-icons/md";
 import { FaTrash } from "react-icons/fa";
 
-import { TaskService } from '../../services/api/tasks/TaskService';
-import { ApiException } from '../../services/api/ApiException';
+import { TaskService } from "./../../services/api/tasks/taskService"
 import { Modal } from '../modal/Modal';
 
 
@@ -16,19 +15,12 @@ export const Task = ({ taskData, checklistData, isArchived }) => {
     let arrayTasksDone = [];
 
     taskData.map((task) => {
-        arrayTasksDone.push(task.done);
+        arrayTasksDone.push(task.done)
     })
 
     const navigate = useNavigate();
 
-    const [tasksLoadedState, setTasksLoadedState] = useState([]);
-
-    const [taskDeleted, setTaskDeleted] = useState()
-    const [show, setShow] = useState(false)
-
-    const [checkedTasks, setCheckedTasks] = useState([]);
-
-    const [checkboxStates, setCheckboxStates] = useState(arrayTasksDone);
+    const [checkboxStates, setCheckboxStates] = useState(arrayTasksDone)
 
     const [isOpen, setIsOpen] = useState(false)
     
@@ -36,24 +28,22 @@ export const Task = ({ taskData, checklistData, isArchived }) => {
 
 
     const handleCheckboxChange = (index) => {
-        const updatedCheckboxStates = [...checkboxStates];
-        updatedCheckboxStates[index] = !updatedCheckboxStates[index];
-        setCheckboxStates(updatedCheckboxStates);
+        const updatedCheckboxStates = [...checkboxStates]
+        updatedCheckboxStates[index] = !updatedCheckboxStates[index]
+        setCheckboxStates(updatedCheckboxStates)
     };
 
     const checkTasks = (taskId, index) => {
-        console.log("Checkbox " + taskId + " foi marcado/desmarcado");
-        updateTask(taskId, checkboxStates[index]);
+        updateTask(taskId, checkboxStates[index])
         console.log(checkboxStates)
-
     };
 
     
     const openModal = (selectedTask) => {
 
-        setIsOpen(true);
+        setIsOpen(true)
 
-        //console.log("1 - Modal Opened")
+        //console.log("1 - Modal Open")
         //console.log("2 - task id selected: " + selectedTask)
 
         setConfirmDelete([false, selectedTask])
@@ -64,17 +54,10 @@ export const Task = ({ taskData, checklistData, isArchived }) => {
 
         try {
                 
-                //console.log("4 - delete task called")
-               
-                //console.log("5 - task id in deleteTask: " + taskId)
+            //console.log("4 - deleteTask() is called")
+            //console.log("5 - task id in deleteTask: " + taskId)
 
-                const res = await TaskService.deleteById(taskId);
-
-                setTaskDeleted(res);
-
-                console.log("Task deleted!")
-
-                navigate(0);
+            await TaskService.deleteById(taskId)
             
         } catch (ex) {
             console.log(ex.message)
@@ -86,11 +69,11 @@ export const Task = ({ taskData, checklistData, isArchived }) => {
 
     const calcExpirationDate = (endDateString) => {
         
-        const currentData = new Date();
+        const currentData = new Date()
 
-        let endDateArr = endDateString.split("/");
+        let endDateArr = endDateString.split("/")
 
-        const endAtDate = new Date(endDateArr[0], endDateArr[1] -1 , endDateArr[2]);
+        const endAtDate = new Date(endDateArr[0], endDateArr[1] -1 , endDateArr[2])
 
         const result = endAtDate - currentData;
 
@@ -121,13 +104,13 @@ export const Task = ({ taskData, checklistData, isArchived }) => {
 
             let lists = document.getElementsByName("collapseActions")
             for (let i = 0; i < lists.length; i++) {
-                lists[i].open = false;
+                lists[i].open = false
             }
         }
-        
 
         if(confirmDelete[0]) {
             deleteTask(confirmDelete[1])
+
         }
 
     }, [confirmDelete])
@@ -141,12 +124,12 @@ export const Task = ({ taskData, checklistData, isArchived }) => {
 
         try {
 
-            await TaskService.updateById(taskId, dataToUpload);
+            await TaskService.updateById(taskId, dataToUpload)
        
         } catch (ex) {
             console.log(ex.message)
         } finally {
-            console.log("update done task");
+            console.log("update done task")
         }
 
     }
@@ -170,8 +153,8 @@ export const Task = ({ taskData, checklistData, isArchived }) => {
                             value={task.id}
                             checked={checkboxStates[index]}
                             onChange={() => {
-                                handleCheckboxChange(index);
-                                checkTasks(task.id, index);
+                                handleCheckboxChange(index)
+                                checkTasks(task.id, index)
                             }}
                         />
                         <label htmlFor={`taskToCheck_${task.id}`} className={styles.switch}>
@@ -179,7 +162,6 @@ export const Task = ({ taskData, checklistData, isArchived }) => {
                         </label>
 
                             <input type="text" name="taskTitle" id="taskTitle" className={styles.taskTitle + " " + styles.truncate}  value={task.title} style={checkboxStates[index] ? {textDecoration: 'line-through'} : {}}/>
-                        
                         
                         <p className={styles.expireData}>{task?.endAtDate ? `Expire in ${calcExpirationDate(task?.endAtDate)} days` : ""}</p>
 
@@ -191,7 +173,7 @@ export const Task = ({ taskData, checklistData, isArchived }) => {
                         <details name="collapseActions" className={styles.collapseTask}>
                         <summary className={styles.title}><GoChevronDown /></summary>
                         
-                            <button onClick={ () => { navigate(`/edit/${checklistData.id}/${task.id}`)} } className={styles.item + " " +styles.edit} style={{borderRadius: "10px 10px 0px 0px "}}>
+                            <button onClick={ () => { navigate(`/todolist-frontend/edit/${checklistData.id}/${task.id}`)} } className={styles.item + " " +styles.edit} style={{borderRadius: "10px 10px 0px 0px "}}>
                                 <div className={styles.btnWithIcon}>
                                     <MdEdit /> <p>Edit</p>
                                 </div>
@@ -214,9 +196,8 @@ export const Task = ({ taskData, checklistData, isArchived }) => {
             ))}
 
             <Modal openModal={isOpen}  closeModal={() => { setIsOpen(false) }} confirmDelete={() => {
-                let idTaskRemoved = confirmDelete.splice(1,2);
-                setConfirmDelete([true, idTaskRemoved]);
-                //setConfirmDelete([[true, idTaskRemoved]]);
+                let idTaskRemoved = confirmDelete.splice(1,2)
+                setConfirmDelete([true, idTaskRemoved])
                 }}>
                 <p>Are you sure archive this task?</p>
             </Modal>

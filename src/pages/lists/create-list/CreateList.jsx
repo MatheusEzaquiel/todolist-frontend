@@ -35,7 +35,7 @@ export const CreateList = () => {
                 setResultApi({status: "ok", message: "List created!"})
 
                 setTimeout( () => {
-                    navigate(`/create-task/${res.id}`)
+                    navigate(`/todolist-frontend/create-task/${res.id}`)
                 }, 3000)
 
             } else {
@@ -46,10 +46,7 @@ export const CreateList = () => {
             
 
         } catch (ex) {
-
             setResultApi({status: "error", message: ex.message})
-            console.error(ex.message)
-
         } finally { 
             setTitle("")
             setIsOpenNotification(true)

@@ -109,7 +109,7 @@ export const EditTask = () => {
             setResultApi({status: "ok", message: "Task was edited!"})
 
             setTimeout( () => {
-                navigate("/lists");
+                navigate("/todolist-frontend/lists");
             }, 2000)
        
         } catch (ex) {
@@ -220,7 +220,7 @@ export const EditTask = () => {
                     
                     
                     <div className={styles.btnFlex}>
-                        <Link to={"/lists"}>
+                        <Link to={"/todolist-frontend/lists"}>
                             <button className={styles.btnForm + " " + styles.btnBack}>Back</button>
                         </Link>
                         <button className={styles.btnForm + " " + styles.btnEdit}>update</button>

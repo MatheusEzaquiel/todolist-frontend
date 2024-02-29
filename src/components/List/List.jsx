@@ -16,12 +16,8 @@ export const List = ( { checklistData, taskData, archived, handleNotification, a
 
     const navigate = useNavigate();
 
-    const [checklistDeleted, setChecklistDeleted] = useState()
-
     const [isOpen, setIsOpen] = useState(false)
     const [confirmDelete, setConfirmDelete] = useState(false)
-
-    const [selectActions, setSelectActions] = useState();
 
     const archiveChecklist = async(checklistId) => {
 
@@ -29,10 +25,7 @@ export const List = ( { checklistData, taskData, archived, handleNotification, a
 
             if(confirmDelete) {
 
-                const res = await ChecklistService.deleteById(checklistId);
-
-                setChecklistDeleted(res);
-
+                await ChecklistService.deleteById(checklistId);
                 archivingList();
 
             } else {
@@ -53,7 +46,7 @@ export const List = ( { checklistData, taskData, archived, handleNotification, a
 
         if(e.target.value == "edit") {
             console.log("ok");
-            navigate(`/edit-checklist/${checklistData.id}`);
+            navigate(`/todolist-frontend/edit-checklist/${checklistData.id}`);
             
         } else {
             setIsOpen(true);
@@ -73,7 +66,7 @@ export const List = ( { checklistData, taskData, archived, handleNotification, a
                 lists[i].open = false;
             }
         }
-    }, [confirmDelete, isOpen])
+    }, [confirmDelete, isOpen, ])
     
 
     return(
@@ -88,7 +81,7 @@ export const List = ( { checklistData, taskData, archived, handleNotification, a
                         <summary className={styles.title}><AiOutlineMore /></summary>
 
                             <>
-                                <Link to={`/edit-checklist/${checklistData.id}`}>
+                                <Link to={`/todolist-frontend/edit-checklist/${checklistData.id}`}>
                                 <button className={styles.btnList + " " +styles.edit} onClick={(e) => handlerChangeActionList(e)}>
                                     <div className={styles.btnWithIcon}>
                                         <MdEdit /> <p>Edit</p>  
@@ -112,7 +105,7 @@ export const List = ( { checklistData, taskData, archived, handleNotification, a
                 </div>
 
                 <div className={styles.listFooter}>
-                    <Link to={`/create-task/${checklistData.id}`}>
+                    <Link to={`/todolist-frontend/create-task/${checklistData.id}`}>
                         <button>
                             <span><GoPlusCircle/> new task</span>
                         </button>
@@ -120,7 +113,7 @@ export const List = ( { checklistData, taskData, archived, handleNotification, a
                 </div>
 
 
-                <Modal openModal={isOpen} closeModal={ () => { setIsOpen(false) }} confirmDelete={ () => { setConfirmDelete(true); console.log(confirmDelete) } }>
+                <Modal openModal={isOpen} closeModal={ () => { setIsOpen(false) }} confirmDelete={ () => { setConfirmDelete(true) } }>
                     <p>Are you sure archive this List?</p>
                 </Modal>
             </div>

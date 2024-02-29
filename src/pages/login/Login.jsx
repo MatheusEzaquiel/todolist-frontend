@@ -66,14 +66,14 @@ const getUserLoggedData = async(data) => {
     localStorage.setItem("userLoggedData", JSON.stringify(userLoggedData));
 
     setTimeout( () => {
-      navigate("/lists");
+      navigate("/todolist-frontend/lists");
       //navigate(0)
     }, 3000)
 
-  } catch (error) {
+  } catch (ex) {
 
-    if (error instanceof ApiException) {
-      console.error("ERROR: " + error.message)
+    if (ex instanceof ApiException) {
+      console.error("ERROR: " + ex.message)
     }
 
   } 
@@ -124,7 +124,7 @@ const blockFormRefresh = (e) => {
 
             <div className={styles.btnGroupLogin}>
               <button className={styles.btnLogin}>Login</button>
-              <Link to="/register"><p>Don't have a account? <span>Register</span></p></Link>
+              <Link to="/todolist-frontend/register"><p>Don not have a account? <span>Register</span></p></Link>
             </div>
 
           </form>

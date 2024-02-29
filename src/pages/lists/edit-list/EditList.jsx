@@ -16,8 +16,7 @@ export const EditList = () => {
 
     const [ title, setTitle] = useState("")
     const [ checklist, setChecklist ] = useState(null)
-
-    const [ checklistUpdated, setChecklistUpdated] = useState(null)
+    
     const [isOpenNotification, setIsOpenNotification] = useState(false)
     const [responseApi, setResponseApi] = useState({
         status: 0,
@@ -44,15 +43,14 @@ export const EditList = () => {
 
             const res = await ChecklistService.updateById(checklistId, dataToUpload);
 
-            setChecklistUpdated(res);
             setChecklist(res);
             
             console.log("Checklist updated")
             setResponseApi({status:200, message:"Checklist updated!"})
 
             setTimeout(() => {
-                navigate("/lists");
-            }, 2500)
+                navigate("/todolist-frontend/lists");
+            }, 2100)
 
         } catch (ex) {
 
@@ -99,7 +97,7 @@ export const EditList = () => {
                         </div>
                         
                         <div className={styles.btnFlex}>
-                            <Link to={"/lists"}>
+                            <Link to={"/todolist-frontend/lists"}>
                                 <button className={styles.btnForm + " " + styles.btnBack}>Back</button>
                             </Link>
                             <button className={styles.btnForm + " " + styles.btnEdit}>Update</button>

@@ -9,23 +9,20 @@ import { Notification } from "../../components/notification/Notification"
 import { UserService } from "../../services/api/users/UserService"
 import Activity from "./../../components/activity/Activity"
 import useToken from "../../app/useToken"
+import useDataAuth from "../../app/useDataAuth"
 
 export const Profile = () => {
 
     const navigate = useNavigate()
     const tokenAuth = useToken()
+    const dataAuth = useDataAuth();
 
     const [isOpenNotification, setIsOpenNotification] = useState(false)
     const [resultApi, setResultApi] = useState({type: "", message: ""})
 
     const [userLoggedData] = useState(JSON.parse(localStorage.getItem("userLoggedData")))
+    const [userData, setUserData] = useState({username: "", email: "", password: ""})
 
-
-    const [userData, setUserData] = useState({
-        username: "",
-        email: "",
-        password: "",
-    })
 
     const blockFormRefresh = (e) => {
         e.preventDefault();
@@ -40,7 +37,7 @@ export const Profile = () => {
             setUserData(res)
 
         } catch (ex) {
-            console.log("Error: " + ex.message)
+            setResultApi({type: "error", message: "Error to get data of the user!"})
         } 
 
     }
@@ -63,9 +60,17 @@ export const Profile = () => {
             //navigate(0)
 
         } catch (ex) {
-            setResultApi({status: "error", message: ex.message})
+            setResultApi({type: "error", message: ex.message})
         } finally {
             setIsOpenNotification(true);
+            
+            
+            dataAuth.setDataAuth({id: null, message: null, token: null})
+            
+            setTimeout(() => {
+                navigate(0)
+            }, 2000)
+            
         }
 
     }
@@ -81,24 +86,23 @@ export const Profile = () => {
 
             <div className={styles.headerMenu}>
                 <h1 className={styles.title}>Profile</h1>
-                <p>Edit and view your data</p>
+                <p>View your data</p>
             </div>
-            
 
             <div className={styles.userArea}>
 
                 <form className={styles.profileForm} onSubmit={blockFormRefresh} >
 
-                    <h2 className={styles.titleForm}>Edit</h2>
+                    <h2 className={styles.titleForm}>User</h2>
 
                     <div className={styles.inputGroup2}>
                         <label htmlFor="username"><span><GoPerson/></span>Username</label>
-                        <input type="text" onChange={(e) => { setUserData({...userData, username: e.target.value}) }}  value={userData.username} name="username" id="username" placeholder={userData?.username ?? 'New username...'} />
+                        <input type="text" disabled onChange={(e) => { setUserData({...userData, username: e.target.value}) }}  value={userData.username} name="username" id="username" placeholder={userData?.username ?? 'New username...'} />
                     </div>
 
                     <div className={styles.inputGroup2}>
                         <label htmlFor="email"><span><AiOutlineMail /></span>E-mail</label>
-                        <input type="text" onChange={(e) => { setUserData({...userData, email: e.target.value}) }} value={userData.email} name="email" id="email" placeholder={userData?.email ?? 'New e-mail...'}/>
+                        <input type="text" disabled onChange={(e) => { setUserData({...userData, email: e.target.value}) }} value={userData.email} name="email" id="email" placeholder={userData?.email ?? 'New e-mail...'}/>
                     </div>
 
                     <div className={styles.inputGroup2}>

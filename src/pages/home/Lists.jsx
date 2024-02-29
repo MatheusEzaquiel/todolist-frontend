@@ -6,19 +6,16 @@ import { FaCirclePlus } from "react-icons/fa6";
 
 import "./Lists.css"
 
-import { List } from '../../../components/List/List';
-import { ChecklistService } from "../../../services/api/checklists/ChecklistService";
-import { ApiException } from "../../../services/api/ApiException";
-
-import { Notification } from "../../../components/notification/Notification";
-import useToken from "../../../app/useToken";
+import { List } from "./../../components/List/List"
+import { ChecklistService } from "./../../services/api/checklists/ChecklistService";
+import { Notification } from "./../../components/notification/Notification";
 
 
 
 
 export const Lists = () => {
 
-  const [userToken, setUserToken] = useState(JSON.parse(localStorage.getItem("userToken")));
+  const [userToken] = useState(JSON.parse(localStorage.getItem("userToken")));
   
   const [isOpenNotification, setIsOpenNotification] = useState(false)
 
@@ -92,7 +89,7 @@ export const Lists = () => {
               }
 
               <div className="addListBtn">
-                <Link to={`/create-checklist`}>
+                <Link to={`/todolist-frontend/create-list`}>
                   <button>
                     <FaCirclePlus/>
                   </button>

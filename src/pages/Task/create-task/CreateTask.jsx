@@ -71,7 +71,6 @@ export const CreateTask = () => {
     }
     
 
-    //Create
     const createTask = async() => {
        
         const dataToCreate = {
@@ -198,7 +197,7 @@ export const CreateTask = () => {
 
                     
                     <div className={styles.btnFlex}>
-                        <Link to={"/lists"}>
+                        <Link to={"/todolist-frontend/lists"}>
                             <button className={styles.btnForm + " " + styles.btnBack}>Back</button>
                         </Link>
                         <button className={styles.btnForm + " " + styles.btnEdit}>Create</button>

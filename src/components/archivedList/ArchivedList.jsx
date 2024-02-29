@@ -1,9 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineMore } from "react-icons/ai";
-import { GoPlusCircle } from "react-icons/go";
-import { MdEdit } from "react-icons/md";
-import { IoArchive } from "react-icons/io5";
 import { LuArchiveRestore } from "react-icons/lu";
 
 import styles from "./ArchivedList.module.css";
@@ -17,67 +13,32 @@ import { ApiException } from "../../services/api/ApiException";
 
 export const ArchivedList = ( { checklistData, taskData, handleNotification, refreshUnarchivedLists } ) => {
 
-    const navigate = useNavigate();
-
-    const [checklistDeleted, setChecklistDeleted] = useState()
-
     const [isOpen, setIsOpen] = useState(false)
     const [confirmDelete, setConfirmDelete] = useState(false)
+    const [resultApi, setResultApi] = useState({type: "", message: ""})
+    const [isOpenNotification, setIsOpenNotification] = useState(false);
 
-    const [selectActions, setSelectActions] = useState();
-
-    const [listsArchiveds, setListsArchiveds] = useState();
-
-    /*
-    const getAllDisabledLists = async() => {
-
-        try {
-
-            const res = await ChecklistService.listArchiveds();
-
-            setListsArchiveds(res);
-
-            console.log(JSON.stringify(res))
-
-            
-        } catch (e) {
-
-            if (e instanceof ApiException) {
-                alert(e.message);
-            } else {
-                console.error(e.message);
-            }
-
-        }
-
-    }
-    */
-   
+    
     const deleteChecklist = async(checklistId) => {
 
         try {
 
             if(confirmDelete) {
 
-                const res = await ChecklistService.deleteById(checklistId);
-
-                setChecklistDeleted(res);
+                await ChecklistService.deleteById(checklistId);
+                setResultApi({type: "ok", message: "List deleted!"})
 
             } else {
                 alert("Action Canceled!");
             }
             
-        } catch (e) {
+        } catch (ex) {
 
-            if (e instanceof ApiException) {
-                alert(e.message);
-            } else {
-                console.error(e.message);
-            }
+            setResultApi({type: "error", message: ex.message})
 
         }  finally {
 
-            getAllDisabledLists();
+            //getAllDisabledLists();
             /*
             setConfirmDelete(false);
             setIsOpen(false);
@@ -92,17 +53,12 @@ export const ArchivedList = ( { checklistData, taskData, handleNotification, ref
 
         try {
 
-            const res = await ChecklistService.unarchiveById(listId);
+            await ChecklistService.unarchiveById(listId);
+            setResultApi({type: "ok", message: "The List was unarchived"})
 
-            console.log("desarquivado!!!!!!!" + listId)
+        } catch (ex) {
 
-        } catch (e) {
-
-            if (e instanceof ApiException) {
-                alert(e.message);
-            } else {
-                console.error(e.message);
-            }
+            setResultApi({type: "error", message: ex.message})
 
         }  finally {
             setConfirmDelete(false);
@@ -111,16 +67,6 @@ export const ArchivedList = ( { checklistData, taskData, handleNotification, ref
             //setIsOpenAlert(true)
 
             //setTimeout(() => { setIsOpenAlert(false)}, 0.1)
-        }
-    }
-
-    const handlerChangeActionList = (e) => {
-
-        if(e.target.value == "edit") {
-            navigate(`/edit-checklist/${checklistData.id}`);
-            
-        } else {
-            setIsOpen(true);
         }
     }
 
@@ -172,7 +118,9 @@ export const ArchivedList = ( { checklistData, taskData, handleNotification, ref
                 <Modal openModal={isOpen} closeModal={ () => { setIsOpen(false) }} confirmDelete={ () => { setConfirmDelete(true); console.log(confirmDelete) } }>
                     <p>Are you sure delete this List?</p>
                 </Modal>
-               
+
+                <Notification enabled={isOpenNotification} close={() => setIsOpenNotification(false)}  element={{type: resultApi.type, message: resultApi.message}}>
+                </Notification>
 
             </div>
         

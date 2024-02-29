@@ -7,43 +7,41 @@ import Root from './routes/root.jsx'
 import ErrorPage from './pages/ErrorPage.jsx'
 import PrivateRoute from './routes/PrivateRoute.jsx'
 
-import { CreateTask } from './pages/Task/create-task/CreateTask.jsx'
-import { EditTask } from './pages/Task/edit-page/EditTask.jsx'
 
-import { CreateList} from './pages/checklist/create-page/CreateList.jsx'
-import { EditList } from './pages/checklist/edit-page/EditList.jsx'
-
-
-import { Register } from './pages/register/Register.jsx'
-import { Login } from './pages/login/Login.jsx'
+import { Login } from "./pages/login/Login.jsx"
 import { Profile } from "./pages/profile/Profile.jsx"
 
-import { Lists } from './pages/checklist/lists/Lists.jsx'
-import { ArchivedListsPage } from './pages/archiveds/ArchivedListsPage.jsx'
-  
+import { CreateTask } from './pages/Task/create-task/CreateTask.jsx'
+import { EditTask } from "./pages/task/edit-task/EditTask.jsx"
+import { CreateList} from "./pages/lists/create-list/CreateList.jsx"
+import { EditList } from './pages/lists/edit-list/EditList.jsx'
+import { Register } from './pages/register/Register.jsx'
+import { Lists } from "./pages/home/Lists.jsx"
+import { ArchivedListsPage } from "./pages/archiveds/ArchivedListsPage.jsx"
 
+  
+const baseURL = "/todolist-frontend"
 
 const router = createBrowserRouter([
   {
-    
     path: "/",
     element: <Root/>,
     errorElement: <ErrorPage/>,
     children: [
 
-      { path: "/", element: <Login/> },
-      { path: "/login", element: <Login/> },
-      { path: "/register", element: <Register/> },
+      { path: baseURL + "/", element: <Login/> },
+      { path: baseURL + "/login", element: <Login/> },
+      { path: baseURL + "/register", element: <Register/> },
 
-      { path: "/my", element: <PrivateRoute> <Profile/> </PrivateRoute> },
+      { path: baseURL + "/my", element: <PrivateRoute> <Profile/> </PrivateRoute> },
 
-      { path: "/lists", element: <PrivateRoute> <Lists/> </PrivateRoute> },
-      { path: "/archiveds", element: <PrivateRoute> <ArchivedListsPage/> </PrivateRoute>},
+      { path: baseURL + "/lists", element: <PrivateRoute> <Lists/> </PrivateRoute> },
+      { path: baseURL + "/create-task/:checklistId", element: <PrivateRoute> <CreateTask/> </PrivateRoute> },
+      { path: baseURL + "/edit/:checklistId/:taskId", element: <PrivateRoute> <EditTask/> </PrivateRoute> },
+      { path: baseURL + "/archiveds", element: <PrivateRoute> <ArchivedListsPage/> </PrivateRoute>},
 
-      { path: "/create-task/:checklistId", element: <PrivateRoute> <CreateTask/> </PrivateRoute> },
-      { path: "/edit/:checklistId/:taskId", element: <PrivateRoute> <EditTask/> </PrivateRoute> },
-      { path: "/create-checklist", element: <PrivateRoute> <CreateList/> </PrivateRoute>},
-      { path: "/edit-checklist/:checklistId", element: <PrivateRoute> <EditList/> </PrivateRoute> },
+      { path: baseURL + "/create-list", element: <PrivateRoute> <CreateList/> </PrivateRoute>},
+      { path: baseURL + "/edit-checklist/:checklistId", element: <PrivateRoute> <EditList/> </PrivateRoute> },
 
     ],
   }

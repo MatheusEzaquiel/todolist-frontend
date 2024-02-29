@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 export const Navbar = () => {
 
-    const [userLoggedData, setUserLoggedData] = useState(JSON.parse(localStorage.getItem("userLoggedData")) == null ? {username: null } : JSON.parse(localStorage.getItem("userLoggedData")));
+    const [userLoggedData] = useState(JSON.parse(localStorage.getItem("userLoggedData")) == null ? {username: null } : JSON.parse(localStorage.getItem("userLoggedData")));
 
     useEffect( () => {
     }, [userLoggedData])
@@ -14,17 +14,17 @@ export const Navbar = () => {
 
         <ul className="navbar">
             
-            <Link to={"/lists"}>
+            <Link to={"/todolist-frontend/lists"}>
                 <li>Lists</li>
             </Link>
-            <Link to={"/archiveds"}>
+            <Link to={"/todolist-frontend/archiveds"}>
                 <li>Archiveds</li>
             </Link>
 
             {
                 userLoggedData?.username ? 
-                <Link to={"/my"}><li className="username"><GoPerson/> {userLoggedData.username} </li></Link> :
-                <Link to={"/login"}><li className="username">Login</li></Link>
+                <Link to={"/todolist-frontend/my"}><li className="username"><GoPerson/> {userLoggedData.username} </li></Link> :
+                <Link to={"/todolist-frontend/login"}><li className="username">Login</li></Link>
             }
         
         </ul>

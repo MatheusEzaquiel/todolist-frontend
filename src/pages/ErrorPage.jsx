@@ -15,7 +15,7 @@ export default function ErrorPage() {
       <div className={styles.content}>
         <img className={styles.imageError} src={image} alt="" />
         <h1 className={styles.title}>Oops!</h1>
-        <p className={styles.text}>An unexpected error has occurred. Come back to homepage and try again <a className={styles.errorMessage} href="/">home</a></p>
+        <p className={styles.text}>An unexpected error has occurred. Come back to homepage and try again <a className={styles.errorMessage} href="/todolist-frontend/lists">go out</a></p>
         <p>
           <i>Error: Page {error.statusText || error.message}</i>
         </p>

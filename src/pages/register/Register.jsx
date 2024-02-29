@@ -60,11 +60,11 @@ export const Register = () => {
             setDataRegister({})
          
             setTimeout(() => {
-                navigate("/")
+                navigate("/todolist-frontend/login")
             }, 3000)
 
-        } catch (error) {
-            setResultApi({status: "error", message: error.message})
+        } catch (ex) {
+            setResultApi({status: "error", message: ex.message})
         } finally {
             setIsOpenNotification(true)
         }
@@ -125,7 +125,7 @@ export const Register = () => {
 
                             <div className={styles.btnGroupRegister}>
                                 <button className={styles.btnRegister}>Register</button>
-                                <Link to="/"><p>After create a account, Go to <span>Login</span></p></Link>
+                                <Link to="/todolist-frontend/login"><p>After create a account, Go to <span>Login</span></p></Link>
                             </div>
 
                         </form>

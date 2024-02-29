@@ -4,17 +4,11 @@ import styles from "./ArchivedListsPage.module.css"
 import { ChecklistService } from "../../services/api/checklists/ChecklistService";
 import { ArchivedList } from "../../components/archivedList/ArchivedList";
 import { Notification } from "../../components/notification/Notification";
-import useToken from "../../app/useToken";
-
 
 
 export const ArchivedListsPage = () => {
 
-  const tokenAuth = useToken();
-
-  const [userToken, setUserToken] = useState(JSON.parse(localStorage.getItem("userToken")));
-
-  const [userLoggedData, setUserLoggedData] = useState(JSON.parse(localStorage.getItem("userLoggedData")));
+  const [userLoggedData] = useState(JSON.parse(localStorage.getItem("userLoggedData")));
 
   const [refreshUnarchiveds, setRefreshUnarchiveds] = useState(0);
 
@@ -73,8 +67,7 @@ export const ArchivedListsPage = () => {
 
         </div>
 
-        <Notification enabled={isOpenNotification} close={() => setIsOpenNotification(false)}  element={{type: 200, message: "The list was unarchived"}}>
-        
+        <Notification enabled={isOpenNotification} close={() => setIsOpenNotification(false)}  element={{type: "ok", message: "The list was unarchived"}}>
         </Notification>
       </div>
     </section>
