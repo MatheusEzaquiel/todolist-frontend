@@ -6,23 +6,28 @@ import styles from "./CreateList.module.css"
 
 import { Notification } from "./../../../components/notification/Notification"
 import { ChecklistService } from "../../../services/api/checklists/ChecklistService"
+import useDataAuth from "../../../app/useDataAuth"
 
 export const CreateList = () => {
 
-    const navigate = useNavigate();
+    const navigate = useNavigate()
+
+    const basicUserData = useDataAuth()
 
     const [ title, setTitle] = useState("")
 
     const [isOpenNotification, setIsOpenNotification] = useState(false)
     const [resultApi, setResultApi] = useState({type: "", message: ""});
 
-    const [userToken] = useState(JSON.parse(localStorage.getItem("userToken")));
+    //const [userToken] = useState(JSON.parse(localStorage.getItem("userToken")));
+  
+
 
     const createChecklist = async() => {
 
         const dataToCreate = {
             title: title,
-            userId: userToken.id
+            userId: basicUserData.dataAuth.id
         }
 
 
@@ -43,9 +48,8 @@ export const CreateList = () => {
                 setIsOpenNotification(true)
             }
 
-            
-
         } catch (ex) {
+            console.error("error: " + ex.message)
             setResultApi({status: "error", message: ex.message})
         } finally { 
             setTitle("")

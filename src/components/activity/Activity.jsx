@@ -12,7 +12,7 @@ import { Notification } from "../notification/Notification";
 const Activity = () => {
 
     const [userActivity, setUserActivity] = useState({});
-    const [errorActivity, setErrorActivity] = useState("");
+    const [resultApi, setResultApi] = useState("");
     const [isOpenNotification, setIsOpenNotification] = useState(false)
 
     const userLoggedData = JSON.parse(localStorage.getItem("userLoggedData"));
@@ -25,15 +25,14 @@ const Activity = () => {
             
             setUserActivity(res);
 
-        } catch (error) {
+        } catch (ex) {
 
-            if (error instanceof ApiException) {
-                console.error("API EXCEPTION: " + error.message);
+            if (ex instanceof ApiException) {
+                console.error("API EXCEPTION: " + ex.message);
+                setResultApi(ex.message)
+                setIsOpenNotification(true)
             }
-
-            setErrorActivity(error.message)
-            setIsOpenNotification(true)
-
+            
         } 
 
     }
@@ -46,21 +45,21 @@ const Activity = () => {
 
     return(
         <div className={styles.activityContainer}>
-            <Link to="/lists">
+            <Link to="/todolist-frontend/lists">
             <div className={styles.activityItem + " " + styles.createColor}>
                 <p>Created Lists</p>
                 <span>{userActivity?.quantityLists ?? "0"}</span>
             </div>
             </Link>
 
-            <Link to="/lists">
+            <Link to="/todolist-frontend/archiveds">
             <div className={styles.activityItem + " " + styles.createColor}>
                 <p>Archived Lists</p>
                 <span>{userActivity?.quantityArchivedLists ?? "0"}</span>
             </div>
             </Link>
 
-            <Link to="/archiveds">
+            <Link to="/todolist-frontend/lists">
             <div className={styles.activityItem + " " + styles.archiveColor}>
                 <p>Late tasks</p>
                 <span>{userActivity?.quantityLateTasks ?? "0"}</span>
@@ -71,7 +70,7 @@ const Activity = () => {
                 <ButtonLogout>Logout</ButtonLogout>
             </div>
 
-            <Notification enabled={isOpenNotification} close={() => setIsOpenNotification(false)}  element={{type: "error", message: errorActivity}}></Notification>
+            <Notification enabled={isOpenNotification} close={() => setIsOpenNotification(false)}  element={{type: "error", message: resultApi}}></Notification>
 
         </div>
     )

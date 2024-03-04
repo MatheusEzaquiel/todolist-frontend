@@ -7,17 +7,13 @@ import styles from "./Login.module.css"
 
 import { Notification } from "../../components/notification/Notification";
 import { UserService } from "../../services/api/users/UserService";
-import { ApiException } from "../../services/api/ApiException";
-import useToken from "../../app/useToken";
 import useDataAuth from "../../app/useDataAuth";
 
 export const Login = () => {
 
-  const isLogged = useDataAuth();
-
+  
   const navigate = useNavigate();
-
-  const token = useToken();
+  const isLogged = useDataAuth();
   const dataAuth = useDataAuth();
 
   const [isOpenNotification, setIsOpenNotification] = useState(false)
@@ -34,11 +30,16 @@ export const Login = () => {
         password: dataLogin.password
       });
 
-      token.setToken(res.data);
+      //token.setToken(res.data);
       dataAuth.setDataAuth(res.data);
-      getUserLoggedData(res.data);
+
+      localStorage.setItem("authToken", res.data.token);
 
       setResultApi({status: "ok", message: "Login accepted!"})
+
+      setTimeout( () => {
+        navigate("/todolist-frontend/lists");
+      }, 3000)
 
   } catch (ex) {
     setResultApi({status: "error", message: ex.message})
@@ -48,38 +49,6 @@ export const Login = () => {
   }
 
 }
-
-
-const getUserLoggedData = async(data) => {
-
-  try {
-
-    const res = await UserService.getById(data.id);
-
-    const userLoggedData = {
-      id: res.id,
-      username: res.username,
-      role: res.role,
-      token: data.token
-    }
-
-    localStorage.setItem("userLoggedData", JSON.stringify(userLoggedData));
-
-    setTimeout( () => {
-      navigate("/todolist-frontend/lists");
-      //navigate(0)
-    }, 3000)
-
-  } catch (ex) {
-
-    if (ex instanceof ApiException) {
-      console.error("ERROR: " + ex.message)
-    }
-
-  } 
-
-}
-
 
 const blockFormRefresh = (e) => {
     e.preventDefault();

@@ -1,13 +1,47 @@
 import './Navbar.css'
 import { useEffect, useState } from 'react'
-import { GoPerson } from 'react-icons/go';
 import { Link } from 'react-router-dom'
+import { GoPerson } from 'react-icons/go'
+
+import { ApiException } from '../../services/api/ApiException'
+import { UserService } from '../../services/api/users/UserService'
+import useDataAuth from '../../app/useDataAuth'
+
 
 export const Navbar = () => {
 
-    const [userLoggedData] = useState(JSON.parse(localStorage.getItem("userLoggedData")) == null ? {username: null } : JSON.parse(localStorage.getItem("userLoggedData")));
+    const basicUserData = useDataAuth()
 
+    const createUserLoggedData = async() => {
+
+        try {
+
+            const res = await UserService.getById(basicUserData.dataAuth.id)
+
+            const userLoggedData = {
+                id: res.id,
+                username: res.username,
+                role: res.role
+            }
+
+            localStorage.setItem("userLoggedData", JSON.stringify(userLoggedData))
+
+        } catch (ex) {
+
+            if (ex instanceof ApiException) {
+                console.error("ERROR: " + ex.message)
+            }
+
+        } 
+
+    }
+
+    createUserLoggedData();
+
+    const [userLoggedData] = useState(JSON.parse(localStorage.getItem("userLoggedData")) == null ? {username: null } : JSON.parse(localStorage.getItem("userLoggedData")))
+    
     useEffect( () => {
+        createUserLoggedData()
     }, [userLoggedData])
 
     return (
@@ -20,12 +54,10 @@ export const Navbar = () => {
             <Link to={"/todolist-frontend/archiveds"}>
                 <li>Archiveds</li>
             </Link>
-
-            {
-                userLoggedData?.username ? 
-                <Link to={"/todolist-frontend/my"}><li className="username"><GoPerson/> {userLoggedData.username} </li></Link> :
-                <Link to={"/todolist-frontend/login"}><li className="username">Login</li></Link>
-            }
+            
+            <Link to={"/todolist-frontend/my"}>
+                <li className="username"><GoPerson/>Profile</li>
+            </Link>
         
         </ul>
 

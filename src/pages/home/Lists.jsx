@@ -1,36 +1,38 @@
-import { useEffect, useState } from "react";
-import { Link } from 'react-router-dom';
-
-
-import { FaCirclePlus } from "react-icons/fa6";
+import { useEffect, useState } from "react"
+import { Link } from 'react-router-dom'
+import { FaCirclePlus } from "react-icons/fa6"
 
 import "./Lists.css"
 
 import { List } from "./../../components/List/List"
-import { ChecklistService } from "./../../services/api/checklists/ChecklistService";
-import { Notification } from "./../../components/notification/Notification";
+import { ChecklistService } from "./../../services/api/checklists/ChecklistService"
+import { Notification } from "./../../components/notification/Notification"
+import { ApiException } from "../../services/api/ApiException"
 
+import useDataAuth from '../../app/useDataAuth';
 
 
 
 export const Lists = () => {
 
-  const [userToken] = useState(JSON.parse(localStorage.getItem("userToken")));
+  const basicUserData = useDataAuth()
   
   const [isOpenNotification, setIsOpenNotification] = useState(false)
 
   const [ checklists, setChecklists ] = useState(null)
 
-  const [quantityAchivedLists, setQuantityArchivedLists] = useState(0);
+  const [quantityAchivedLists, setQuantityArchivedLists] = useState(0)
 
 
     const getChecklists = async() => {
 
         try {
-          const res = await ChecklistService.list(userToken.id);
+          const res = await ChecklistService.list(basicUserData.dataAuth.id)
           setChecklists(res)
         } catch (ex) {
-          console.log(ex.message)
+          if (ex instanceof ApiException) {
+            console.error("ERROR: " + ex.message)
+          }
         } 
 
     }
@@ -41,7 +43,7 @@ export const Lists = () => {
 
       setTimeout(() => {
         setIsOpenNotification(false)
-      }, 5000);
+      }, 5000)
 
     };
 
@@ -73,9 +75,8 @@ export const Lists = () => {
                     return(
 
                         <List key={index}
-                          checklistData= { checklist }
-                          taskData = { checklist.tasks }
-                          archived={false}
+                          checklistData = {checklist}
+                          taskData = {checklist.tasks}
                           handleNotification={handleNotification}
                           archivingList={() => {setQuantityArchivedLists()}}
                         />

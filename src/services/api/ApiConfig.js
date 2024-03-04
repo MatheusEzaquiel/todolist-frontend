@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 export const Api = () => {
-    if(!localStorage.getItem("userToken")) {
+    
+    if(!localStorage.getItem("authToken")) {
 
         return axios.create({
             baseURL: "http://localhost:8080"
@@ -9,12 +10,12 @@ export const Api = () => {
 
     } else {
 
-        let tokenAuth = JSON.parse(localStorage.getItem("userToken"))
+        let token = localStorage.getItem("authToken")
 
         return axios.create({
             baseURL: " http://localhost:8080",
             headers: {
-                "Authorization": `Bearer ${tokenAuth.token}`
+                "Authorization": `Bearer ${token}`
             }
         })
 

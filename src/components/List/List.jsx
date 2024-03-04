@@ -1,18 +1,18 @@
-import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { AiOutlineMore } from "react-icons/ai";
-import { GoPlusCircle } from "react-icons/go";
-import { MdEdit } from "react-icons/md";
-import { IoArchive } from "react-icons/io5";
+import { useEffect, useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
+import { AiOutlineMore } from "react-icons/ai"
+import { GoPlusCircle } from "react-icons/go"
+import { MdEdit } from "react-icons/md"
+import { IoArchive } from "react-icons/io5"
 
-import styles from "./List.module.css";
+import styles from "./List.module.css"
 
-import { Task } from "../Task/Task";
+import { Task } from "../Task/Task"
 import { Modal } from "./../modal/Modal"
-import { ChecklistService } from "../../services/api/checklists/ChecklistService";
+import { ChecklistService } from "../../services/api/checklists/ChecklistService"
 
 
-export const List = ( { checklistData, taskData, archived, handleNotification, archivingList } ) => {
+export const List = ( { checklistData, taskData, handleNotification, archivingList } ) => {
 
     const navigate = useNavigate();
 
@@ -25,19 +25,19 @@ export const List = ( { checklistData, taskData, archived, handleNotification, a
 
             if(confirmDelete) {
 
-                await ChecklistService.deleteById(checklistId);
+                await ChecklistService.deleteById(checklistId)
                 archivingList();
 
             } else {
-                alert("Action Canceled!");
+                alert("Action Canceled!")
             }
             
         } catch (ex) {
-            console.error(ex.message);
+            console.error(ex.message)
         }  finally {
-            setConfirmDelete(false);
+            setConfirmDelete(false)
             setIsOpen(false);
-            handleNotification();
+            handleNotification()
         }
 
     }
@@ -66,7 +66,7 @@ export const List = ( { checklistData, taskData, archived, handleNotification, a
                 lists[i].open = false;
             }
         }
-    }, [confirmDelete, isOpen, ])
+    }, [confirmDelete, isOpen])
     
 
     return(
@@ -116,6 +116,7 @@ export const List = ( { checklistData, taskData, archived, handleNotification, a
                 <Modal openModal={isOpen} closeModal={ () => { setIsOpen(false) }} confirmDelete={ () => { setConfirmDelete(true) } }>
                     <p>Are you sure archive this List?</p>
                 </Modal>
+
             </div>
     );
 

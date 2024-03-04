@@ -1,8 +1,6 @@
-import { GoTrash  } from "react-icons/go";
 import { IoArchive } from "react-icons/io5";
 
 import "./Modal.css"
-import deleteGif from "./../../assets/img/delete.gif"
 
 export const Modal = ({openModal, closeModal, confirmDelete, children}) => {
 

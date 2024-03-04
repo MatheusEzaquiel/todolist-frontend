@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom"
 import { Api } from "./../ApiConfig"
 import { ApiException } from "./../ApiException"
 
@@ -101,7 +100,7 @@ const login = async (dataToLogin) => {
 }
 
 const logout = () => {
-    localStorage.removeItem("userToken");
+    localStorage.removeItem("authToken");
     localStorage.removeItem("userLoggedData");
     localStorage.removeItem("dataAuth");
 }

@@ -5,12 +5,14 @@ import { useNavigate } from 'react-router-dom';
 import { GoChevronDown } from "react-icons/go";
 import { MdEdit } from "react-icons/md";
 import { FaTrash } from "react-icons/fa";
+import { MdDone } from "react-icons/md";
+import { IoWarningOutline } from "react-icons/io5";
 
 import { TaskService } from "./../../services/api/tasks/taskService"
 import { Modal } from '../modal/Modal';
 
 
-export const Task = ({ taskData, checklistData, isArchived }) => {
+    export const Task = ({ taskData, checklistData, isArchived }) => {
 
     let arrayTasksDone = [];
 
@@ -35,7 +37,6 @@ export const Task = ({ taskData, checklistData, isArchived }) => {
 
     const checkTasks = (taskId, index) => {
         updateTask(taskId, checkboxStates[index])
-        console.log(checkboxStates)
     };
 
     
@@ -110,7 +111,7 @@ export const Task = ({ taskData, checklistData, isArchived }) => {
 
         if(confirmDelete[0]) {
             deleteTask(confirmDelete[1])
-
+            navigate(0)
         }
 
     }, [confirmDelete])
@@ -144,7 +145,6 @@ export const Task = ({ taskData, checklistData, isArchived }) => {
 
                     <div className={styles.taskText}>      
                         
-                        
                         <input
                             type="checkbox"
                             name="taskToCheck"
@@ -163,7 +163,12 @@ export const Task = ({ taskData, checklistData, isArchived }) => {
 
                             <input type="text" name="taskTitle" id="taskTitle" className={styles.taskTitle + " " + styles.truncate}  value={task.title} style={checkboxStates[index] ? {textDecoration: 'line-through'} : {}}/>
                         
-                        <p className={styles.expireData}>{task?.endAtDate ? `Expire in ${calcExpirationDate(task?.endAtDate)} days` : ""}</p>
+                        <p className={styles.expireData}>
+                            { checkboxStates[index]
+                                ? <p style={{color: "green"}}><MdDone />done!</p>
+                                : task?.endAtDate ? <p style={{color: "red"}}><IoWarningOutline />Expire in {calcExpirationDate(task?.endAtDate)} days</p> : ""
+                            }
+                        </p>
 
                     </div>
 
