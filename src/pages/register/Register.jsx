@@ -4,10 +4,10 @@ import { Link, useNavigate } from "react-router-dom"
 import { GoPerson } from "react-icons/go"
 
 import styles from "./Register.module.css";
-import stylesHome from "./../login/Login.module.css";
 
 import { Notification } from "../../components/notification/Notification";
 import { UserService } from "../../services/api/users/UserService";
+import { PainelApresentation } from "../../components/painelApresentation/PainelApresentation";
 
 
 export const Register = () => {
@@ -79,44 +79,37 @@ export const Register = () => {
 
     return (
         <> 
-           <section className={stylesHome.container}>
+           <section className="">
 
-                <div className={stylesHome.homeContainer}>
+                <div className="">
 
-                    <div className={stylesHome.welcomeContainer}>
+                <PainelApresentation 
+                    title={"Welcome to your To Do List"}
+                    text={"Where you can create your own Lists and tasks for organizate your life"}>
+                </PainelApresentation>
 
-                        <div className={stylesHome.welcomeText}>
-                            <h1>Create an account</h1>
-                            <p>
-                                Take the first step toward an amazing experience! Create your account now and enjoy all the
-                                benefits our platform has to offer.
-                            </p>
-                        </div>
-
-                    </div>
-
-                    <div className={stylesHome.loginContainer}>
+                    <div className="">
                         
-                        <form className={stylesHome.loginForm} onSubmit={blockFormRefresh}>
+                        <form className="" onSubmit={blockFormRefresh}>
 
                             <h2>Register</h2>
 
-                            <div className={stylesHome.inputGroupLogin}>
+                            <div className="">
                                 <label htmlFor="username"><GoPerson/>Username</label>
                                 <input type="text" required onChange={(event) => { setDataRegister({...dataRegister, username: event.target.value}) }} value={dataRegister.username || ''} name="username" id="username" placeholder='Username'/>
                             </div>
 
-                            <div className={stylesHome.inputGroupLogin}>
+                            <div className="">
                                 <label htmlFor="email">E-mail</label>
                                 <input type="email" required onChange={(event) => { setDataRegister({...dataRegister, email: event.target.value}) }} value={dataRegister.email || ''} name="email" id="email" placeholder='user@email.com'/>
                             </div>
 
-                            <div className={stylesHome.inputGroupLogin}>
+                            <div className="">
                                 <label htmlFor="password">Password</label>
                                 <input type="password" required onChange={(event) => { setDataRegister({...dataRegister, password: event.target.value}) }} value={dataRegister.password || ''} name="password" id="password" placeholder='********'/>
                             </div>
 
-                            <div className={stylesHome.inputGroupLogin}>
+                            <div className="">
                                 <label htmlFor="confirmPassword">Confirm Password</label>
                                 <input type="password" required onChange={(event) => { handleConfirmPassword(event) }} value={dataRegister.confirmPassword || ''} name="confirmPassword" id="confirmPassword" placeholder='********'/>
                             </div>
