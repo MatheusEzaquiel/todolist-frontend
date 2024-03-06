@@ -10,7 +10,10 @@ export default {
       'orange-100': '#ff2f00',
       'orange-200': '#c22704',
       'white': '#fafafa',
-      'gray': '#ebe9e6'
+      'gray': '#ebe9e6',
+      'red': '#f51133',
+      'yellow': '#c38e08',
+      'black': '#111111'
     },
     extend: {},
   },
