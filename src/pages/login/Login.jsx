@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { GoKey, GoPerson } from "react-icons/go"
-import { BsFillDoorClosedFill } from "react-icons/bs";
 
 import { Notification } from "../../components/notification/Notification";
 import { UserService } from "../../services/api/users/UserService";
+import { PainelApresentation } from '../../components/painelApresentation/PainelApresentation';
 import useDataAuth from "../../app/useDataAuth";
 
 export const Login = () => {
@@ -61,21 +61,19 @@ const blockFormRefresh = (e) => {
 
   return (
 
-    <section className="w-screen h-screen p-0 m-0">
+    <section className="w-screen h-screen p-0 m-0 lg:flex items-center">
 
-      <div className="">
+      <div className="lg:w-4/5 h-screen lg:flex mx-auto lg:h-4/5 xl:h-[90%] xl:w-[70%]">
+        
+        <PainelApresentation 
+          title={"Welcome to your To Do List"}
+          text={"Where you can create your own Lists and tasks for organizate your life"}>
+        </PainelApresentation>
 
-        <div className="">
-
-          <div className="w-screen h-[80vh] p-4 m-0 bg-gradient-to-r from-orange to-orange-200 flex flex-col items-center justify-center hidden lg:block">
-            <h1 className="text-center text-4xl md:bg-lime-500 text-white mb-2 font-bold">Welcome to <br/> your To Do List</h1>
-            <p className="text-center text-white text-md font-medium">Where you can create your own Lists and tasks for organizate your life</p>
-          </div>
-        </div>
-
-        <div className="p-6 h-[100vh] flex items-center bg-white relative">
+        {/* Login form Side */}
+        <div className="p-6 h-[100%] flex items-center bg-white relative lg:w-1/2">
           
-          <form className="w-[100vw] h-full mr-auto ml-auto flex flex-col" onSubmit={blockFormRefresh}>
+          <form className="w-[100vw] h-full mr-auto ml-auto flex flex-col lg:w-11/12" onSubmit={blockFormRefresh}>
 
             <h2 className="font-semibold text-4xl text-center mt-16 mb-32">Sign in</h2>
 
