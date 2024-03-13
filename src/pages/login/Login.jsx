@@ -7,6 +7,7 @@ import { Notification } from "../../components/notification/Notification";
 import { UserService } from "../../services/api/users/UserService";
 import { PainelApresentation } from '../../components/painelApresentation/PainelApresentation';
 import useDataAuth from "../../app/useDataAuth";
+import { Input } from '../../components/input/Input';
 
 export const Login = () => {
 
@@ -49,10 +50,19 @@ export const Login = () => {
 
 }
 
-const blockFormRefresh = (e) => {
+  const blockFormRefresh = (e) => {
     e.preventDefault();
     doLogin();
-}
+  }
+
+  const changeHandler = (e) => {
+
+    const inputId = e.target.id;
+
+    if(inputId == "username") setDataLogin({...dataLogin, username: e.target.value})
+    if(inputId == "password") setDataLogin({...dataLogin, password: e.target.value})
+
+  }
 
   useEffect(() => {
     if(isLogged?.dataAuth) UserService.logout()
@@ -77,22 +87,32 @@ const blockFormRefresh = (e) => {
 
             <h2 className="font-semibold text-4xl text-center mt-16 mb-32">Sign in</h2>
 
-            <div className="flex flex-col mb-6">
-              <label htmlFor="username" className="flex gap-2 items-center mb-1"><span><GoPerson/></span>Username</label>
-              <input type="text" onChange={(event) => { setDataLogin({...dataLogin, username: event.target.value}) }} value={dataLogin.username || ''} className="p-2 rounded bg-gray" name="username" id="username" placeholder='Username' required/>
-            </div>
+            <Input 
+              title={"Username"}
+              type={"text"}
+              placeholder={"username"}
+              data={dataLogin.username}
+              onChange={changeHandler}
+              inputName={"username"}
+              isRequired={true}
+            />
 
-            <div className="flex flex-col">
-              <label htmlFor="password" className="flex gap-2 items-center mb-1"> <span><GoKey/></span>Password</label>
-              <input type="password" onChange={(event) => { setDataLogin({...dataLogin, password: event.target.value}) }} value={dataLogin.password || ''} className="p-2 rounded bg-gray" name="password" id="password" placeholder='Password' required/>
-            </div>
+            <Input 
+              title={"Password"}
+              type={"password"}
+              placeholder={"********"}
+              value={dataLogin.password}
+              onChange={changeHandler}
+              inputName={"password"}
+              isRequired={true}
+            />
 
             <div className="">
               <button className="bg-orange w-full h-10 mt-10 rounded text-white font-bold">Login</button>
               <Link to="/todolist-frontend/register"><p className="text-center font-medium mt-6">Don't have a account? <span className=" text-orange-100">Register</span></p></Link>
             </div>
 
-            <p className="absolute bottom-4 inset-x-0 mx-auto w-1/2 text-center font-medium">version 1.0</p>
+            <p className="absolute bottom-4 inset-x-0 mx-auto w-1/2 text-center font-medium lg:hidden">version 1.0</p>
 
           </form>
 

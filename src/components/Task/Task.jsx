@@ -141,9 +141,9 @@ import { Modal } from '../modal/Modal';
            
             {taskData.map((task, index) => (
 
-                <div className={styles.taskContainer} key={index}>
+                <div className="w-full h-32 border-b border-gray-300 p-2 flex items-center justify-between relative" key={index}>
 
-                    <div className={styles.taskText}>      
+                    <div className="w-4/5 flex items-center justify-center gap-2">      
                         
                         <input
                             type="checkbox"
@@ -157,13 +157,15 @@ import { Modal } from '../modal/Modal';
                                 checkTasks(task.id, index)
                             }}
                         />
+                        
                         <label htmlFor={`taskToCheck_${task.id}`} className={styles.switch}>
                             <span className={styles.slider}></span>
                         </label>
 
-                            <input type="text" name="taskTitle" id="taskTitle" className={styles.taskTitle + " " + styles.truncate}  value={task.title} style={checkboxStates[index] ? {textDecoration: 'line-through'} : {}}/>
+                        <input type="text" name="taskTitle" id="taskTitle" className="text-2xl bg-transparent outline-none text-wrap text-gray-5 truncate"  value={task.title} style={checkboxStates[index] ? {textDecoration: 'line-through'} : {}}/>
                         
-                        <p className={styles.expireData}>
+                        
+                        <p className="text-red font-bolder">
                             { checkboxStates[index]
                                 ? <p style={{color: "green"}}><MdDone />done!</p>
                                 : task?.endAtDate ? <p style={{color: "red"}}><IoWarningOutline />Expire in {calcExpirationDate(task?.endAtDate)} days</p> : ""
@@ -176,17 +178,16 @@ import { Modal } from '../modal/Modal';
                     {isArchived !== true ? (
                     
                         <details name="collapseActions" className={styles.collapseTask}>
-                        <summary className={styles.title}><GoChevronDown /></summary>
+                        <summary className="list-none"><GoChevronDown /></summary>
                         
-                            <button onClick={ () => { navigate(`/todolist-frontend/edit/${checklistData.id}/${task.id}`)} } className={styles.item + " " +styles.edit} style={{borderRadius: "10px 10px 0px 0px "}}>
-                                <div className={styles.btnWithIcon}>
-                                    <MdEdit /> <p>Edit</p>
-                                </div>
+                            <button onClick={ () => { navigate(`/todolist-frontend/edit/${checklistData.id}/${task.id}`)} } className="w-full h-full flex gap-2 items-center justify-center bg-white hover:text-green font-semibold" style={{borderRadius: "10px 10px 0px 0px "}}>
+                                    <MdEdit size={"1.5rem"}/>
+                                    <p>Edit</p>
                             </button>
 
                             <button onClick={ () => { openModal(task.id) } } className={styles.item + " " + styles.remove} style={{borderRadius: "0px 0px 10px 10px"}}>
-                                <div className={styles.btnWithIcon}>
-                                    <FaTrash /> <p>Remove</p>  
+                                <div className="w-full h-full flex gap-2 items-center justify-center bg-white hover:text-red font-semibold">
+                                    <FaTrash size={"1.3rem"}/> <p>Remove</p>  
                                 </div>
                             </button>
                         
@@ -195,7 +196,7 @@ import { Modal } from '../modal/Modal';
                     ) : null}
                     
                     
-                    <div className={styles.priorityBar} style={{background: colorPriority(task.priority)}}></div>
+                    <div className="w-2 h-full absolute top-0 right-0" style={{background: colorPriority(task.priority)}}></div>
                 </div>
 
             ))}

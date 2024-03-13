@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 
-import styles from "./Activity.module.css";
-
 import { UserService } from "../../services/api/users/UserService";
 import { Link } from "react-router-dom";
 import { ButtonLogout } from "../Buttons/Buttons";
@@ -44,29 +42,32 @@ const Activity = () => {
     
 
     return(
-        <div className={styles.activityContainer}>
+        <div className="w-full lg:w-[40%] lg:h-[60%] lg:mt-8">
+
+            <h2 className="text-2xl text-black text-center mb-10">Your activity</h2>
+
             <Link to="/todolist-frontend/lists">
-            <div className={styles.activityItem + " " + styles.createColor}>
-                <p>Created Lists</p>
-                <span>{userActivity?.quantityLists ?? "0"}</span>
-            </div>
+                <div className="w-full h-20 flex justify-between items-center px-4 mb-6 bg-gray-200 rounded hover:bg-green-2 hover:-translate-y-2 lg:hover:translate-x-16 duration-500">
+                    <p className="text-2xl">Created Lists</p>
+                    <span className="text-4xl font-bold">{userActivity?.quantityLists ?? "0"}</span>
+                </div>
             </Link>
 
             <Link to="/todolist-frontend/archiveds">
-            <div className={styles.activityItem + " " + styles.createColor}>
-                <p>Archived Lists</p>
-                <span>{userActivity?.quantityArchivedLists ?? "0"}</span>
-            </div>
+                <div className="w-full h-20 flex justify-between items-center px-4 mb-6 bg-gray-200 rounded hover:bg-yellow-1 hover:-translate-y-2 lg:hover:translate-x-16 duration-500">
+                    <p className="text-2xl">Archived Lists</p>
+                    <span className="text-4xl font-bold">{userActivity?.quantityArchivedLists ?? "0"}</span>
+                </div>
             </Link>
 
             <Link to="/todolist-frontend/lists">
-            <div className={styles.activityItem + " " + styles.archiveColor}>
-                <p>Late tasks</p>
-                <span>{userActivity?.quantityLateTasks ?? "0"}</span>
-            </div>
+                <div className="w-full h-20 flex justify-between items-center px-4 mb-6 bg-gray-200 hover:bg-orange rounded hover:-translate-y-2 lg:hover:translate-x-16 duration-500">
+                    <p className="text-2xl">Late tasks</p>
+                    <span className="text-4xl font-bold">{userActivity?.quantityLateTasks ?? "0"}</span>
+                </div>
             </Link>
 
-            <div className={styles.containerButton + " " + styles.endContainer}>
+            <div className="w-full">
                 <ButtonLogout>Logout</ButtonLogout>
             </div>
 

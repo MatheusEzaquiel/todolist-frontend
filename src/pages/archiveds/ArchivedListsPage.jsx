@@ -1,9 +1,12 @@
-import { useEffect, useState } from "react";
-import styles from "./ArchivedListsPage.module.css"
+import { useEffect, useState } from "react"
 
-import { ChecklistService } from "../../services/api/checklists/ChecklistService";
-import { ArchivedList } from "../../components/archivedList/ArchivedList";
-import { Notification } from "../../components/notification/Notification";
+import { ChecklistService } from "../../services/api/checklists/ChecklistService"
+import { ArchivedList } from "../../components/archivedList/ArchivedList"
+import { Notification } from "../../components/notification/Notification"
+import { HeaderPage } from "../../components/header-page/HeaderPage"
+
+import emptyImg from "./../../assets/img/empty-figure.svg"
+
 
 
 export const ArchivedListsPage = () => {
@@ -34,15 +37,17 @@ export const ArchivedListsPage = () => {
 
   return (
 
-    <section className={styles.section}>
+    <section className="section w-[100vw]">
 
-      <div className={styles.headerMenu}>
-          <h1 className={styles.title}>Archiveds</h1>
-      </div>
+      <HeaderPage title="Archiveds">
+          <span className="text-black flex items-center justify-center gap-2 text-md">
+            <i>unarchive a list</i>
+          </span>
+      </HeaderPage>
         
-      <div className={styles.containerDefault}>
+      <div className="w-full">
 
-        <div className={styles.containerList}>
+        <div className="w-full p-4 bg-green lg:w-[90%] lg:flex lg:gap-6 lg:flex-wrap lg:mx-auto lg:bg-green">
 
           { checklists?.length > 0 ? 
               
@@ -62,7 +67,12 @@ export const ArchivedListsPage = () => {
                 })
               )
 
-            : <h2 className="nothingFounded">AnyList was founded...</h2>
+            : (
+              <div className="w-full mt-32 lg:mt-16 lg:flex lg:flex-col-reverse lg:gap-12">
+                <img src={emptyImg} alt="no-lists" className="w-72 mx-auto lg:w-96"/>
+                <h2 className="text-gray-300 text-center text-2xl mt-4 lg:text-4xl">AnyList was founded...</h2>
+              </div>
+            )
           }
 
         </div>

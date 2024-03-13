@@ -1,12 +1,13 @@
 import { useState } from "react"
 
 import { useNavigate, Link } from "react-router-dom"
+import { GoPlusCircle } from "react-icons/go"
 
-import styles from "./CreateList.module.css"
-
-import { Notification } from "./../../../components/notification/Notification"
 import { ChecklistService } from "../../../services/api/checklists/ChecklistService"
 import useDataAuth from "../../../app/useDataAuth"
+import { Notification } from "./../../../components/notification/Notification"
+import { Input } from "./../../../components/input/Input"
+import { HeaderPage } from "../../../components/header-page/HeaderPage"
 
 export const CreateList = () => {
 
@@ -18,9 +19,6 @@ export const CreateList = () => {
 
     const [isOpenNotification, setIsOpenNotification] = useState(false)
     const [resultApi, setResultApi] = useState({type: "", message: ""});
-
-    //const [userToken] = useState(JSON.parse(localStorage.getItem("userToken")));
-  
 
 
     const createChecklist = async() => {
@@ -49,7 +47,6 @@ export const CreateList = () => {
             }
 
         } catch (ex) {
-            console.error("error: " + ex.message)
             setResultApi({status: "error", message: ex.message})
         } finally { 
             setTitle("")
@@ -58,6 +55,11 @@ export const CreateList = () => {
 
     }
 
+    const changeHandler = (e) => {
+        console.log(e.target.value)
+        const inputId = e.target.id
+        if(inputId == "title") setTitle(e.target.value)
+    }
 
     const blockFormRefresh = (e) => {
         e.preventDefault();
@@ -67,33 +69,39 @@ export const CreateList = () => {
     return(
         
     
-        <section className={styles.section}>
+        <section className="section w-[100vw] lg:flex items-center">
 
-        <div className={styles.headerMenu}>
-        </div>
+            <HeaderPage title="Create">
+                <i className="">create lists</i>
+            </HeaderPage>
 
-        <div className={styles.containerDefault}>
+            <div className="w-[4/5] h-[60vh] mx-auto p-6 bg-gray-100 relative">
 
-            <div className={styles.formEdit}>
 
-                <h2>Create a list</h2>
+                    <h2 className="text-2xl text-center text-black pt-6 pb-8">Create a new list</h2>
 
-                <form onSubmit={blockFormRefresh}>
+                    <form onSubmit={blockFormRefresh} className="w-full h-full mr-auto ml-auto flex flex-col lg:w-11/12">
 
-                    <div className={styles.inputGroup}>
-                        <label htmlFor="title">Title</label>
-                        <input type="text" required onChange={(event) => { setTitle(event.target.value) }} value={title} name="title" id="title" placeholder='Title List'/>
-                    </div>
+                        <Input 
+                            title={"Title"}
+                            type={"text"}
+                            placeholder={"title"}
+                            data={title}
+                            onChange={changeHandler}
+                            inputName={"title"}
+                            isRequired={true}
+                        />
+                    
 
-                    <div className={styles.btnFlex}>
-                        <Link to={"/lists"}>
-                            <button className={styles.btnForm + " " + styles.btnBack}>Back</button>
-                        </Link>
-                        <button className={styles.btnForm + " " + styles.btnEdit}>Create</button>
-                    </div>
-                </form>
+                        <div className="w-[80%] flex flex-col gap-4 absolute bottom-6 left-1/2 transform -translate-x-1/2">
+                            <Link to={"/todolist-frontend/lists"} className="min-w-36">
+                                <button className="w-full p-2 text-white font-medium text-lg bg-orange rounded">Back</button>
+                            </Link>
+                            <button className="min-w-36 p-2 text-white font-medium text-lg bg-green rounded">Create</button>
+                        </div>
+                    </form>
+             
             </div>
-        </div>
 
             <Notification
                 enabled={isOpenNotification}

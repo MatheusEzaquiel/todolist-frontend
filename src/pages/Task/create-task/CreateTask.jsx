@@ -117,7 +117,7 @@ export const CreateTask = () => {
         <section className={styles.section}>
 
             <div className={styles.headerMenu}>
-                <h1 className={styles.title}><h2>Create a new task from <span style={{color: "#ed6f07"}}>{checklistSelected?.title ?? "no title"}</span></h2></h1>
+                <h1 className="text-center pt-8 text-4xl">Create a new task from <span style={{color: "#ed6f07"}}>{checklistSelected?.title ?? "no title"}</span></h1>
             </div>
             
             <div className={styles.containerDefault}>

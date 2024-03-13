@@ -1,5 +1,3 @@
-import styles from "./Buttons.module.css";
-
 import { useNavigate } from "react-router-dom";
 import { UserService } from "../../services/api/users/UserService";
 
@@ -15,7 +13,7 @@ export const ButtonLogout = ({children}) => {
     }
 
     return (
-        <button className={styles.btnClassic} onClick={handlerRemoveUserToken}>
+        <button className="w-full h-14 text-white text-2xl font-semibold bg-orange-100 rounded flex gap-2 items-center justify-center mx-auto lg:w-1/2" onClick={handlerRemoveUserToken}>
             <span><IoLogOutOutline/></span> <p>{children}</p>
         </button>
     )

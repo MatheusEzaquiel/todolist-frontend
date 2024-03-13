@@ -3,11 +3,11 @@ import { Link, useNavigate } from "react-router-dom"
 
 import { GoPerson } from "react-icons/go"
 
-import styles from "./Register.module.css";
-
-import { Notification } from "../../components/notification/Notification";
-import { UserService } from "../../services/api/users/UserService";
-import { PainelApresentation } from "../../components/painelApresentation/PainelApresentation";
+import { Notification } from "../../components/notification/Notification"
+import { UserService } from "../../services/api/users/UserService"
+import { PainelApresentation } from "../../components/painelApresentation/PainelApresentation"
+import { Input } from "../../components/input/Input";
+import { data } from "autoprefixer"
 
 
 export const Register = () => {
@@ -71,6 +71,16 @@ export const Register = () => {
     
     }
 
+    const changeHandler = (e) => {
+
+        const inputId = e.target.id;
+
+        if(inputId == "username") setDataRegister({...dataRegister, username: e.target.value})
+        if(inputId == "email") setDataRegister({...dataRegister, email: e.target.value})
+        if(inputId == "password") setDataRegister({...dataRegister, password: e.target.value})
+        if(inputId == "confirmPassword") setDataRegister({...dataRegister, confirmPassword: e.target.value})
+
+    }
 
     const blockFormRefresh = (e) => {
         e.preventDefault();
@@ -79,51 +89,76 @@ export const Register = () => {
 
     return (
         <> 
-           <section className="">
+            
+            <section className="w-screen h-screen p-0 m-0 lg:flex items-center">
+            <div className="lg:w-4/5 h-screen lg:flex mx-auto lg:h-4/5 xl:h-[90%] xl:w-[70%]">
 
-                <div className="">
+                <div className="p-6 h-[100%] flex items-center bg-white relative lg:w-1/2">
+                        
+                    <form className="w-[80vw] h-full mr-auto ml-auto flex flex-col lg:w-11/12" onSubmit={blockFormRefresh}>
+
+                        <h2 className="font-semibold text-4xl text-center mt-16 mb-32">Register</h2>
+
+                        <Input 
+                            title={"Username"}
+                            type={"text"}
+                            placeholder={"username"}
+                            data={dataRegister.username}
+                            onChange={changeHandler}
+                            inputName={"username"}
+                            isRequired={true}
+                        />
+
+                        <Input 
+                            title={"E-mail"}
+                            type={"email"}
+                            placeholder={"email"}
+                            data={dataRegister.email}
+                            onChange={changeHandler}
+                            inputName={"email"}
+                            isRequired={true}
+                        />
+
+                        <Input 
+                            title={"Password"}
+                            type={"password"}
+                            placeholder={"********"}
+                            value={dataRegister.password}
+                            onChange={changeHandler}
+                            inputName={"password"}
+                            isRequired={true}
+                        />
+
+
+                        <Input 
+                            title={"Confirm Password"}
+                            type={"password"}
+                            placeholder={"********"}
+                            value={dataRegister.confirmPassword}
+                            inputName={"confirmPassword"}
+                            onChange={changeHandler}
+                            isRequired={true}
+                        />
+
+                        
+
+                        { dataRegister.password !== dataRegister.confirmPassword ? <span className=" text-right text-red font-semibold">Password not corresponding!</span> : ""}
+
+                        <div className="">
+                            <button className="bg-orange w-full h-10 mt-10 rounded text-white font-bold">Register</button>
+                            <Link to="/todolist-frontend/login"><p className="text-center font-medium mt-6">After create a account, Go to <span className=" text-orange-100">Login</span></p></Link>
+                        </div>
+
+                    </form>
+
+
+
+                </div>
 
                 <PainelApresentation 
-                    title={"Welcome to your To Do List"}
-                    text={"Where you can create your own Lists and tasks for organizate your life"}>
+                    title={"Create a account"}
+                    text={"Fot the better experience `set` your basic a data"}>
                 </PainelApresentation>
-
-                    <div className="">
-                        
-                        <form className="" onSubmit={blockFormRefresh}>
-
-                            <h2>Register</h2>
-
-                            <div className="">
-                                <label htmlFor="username"><GoPerson/>Username</label>
-                                <input type="text" required onChange={(event) => { setDataRegister({...dataRegister, username: event.target.value}) }} value={dataRegister.username || ''} name="username" id="username" placeholder='Username'/>
-                            </div>
-
-                            <div className="">
-                                <label htmlFor="email">E-mail</label>
-                                <input type="email" required onChange={(event) => { setDataRegister({...dataRegister, email: event.target.value}) }} value={dataRegister.email || ''} name="email" id="email" placeholder='user@email.com'/>
-                            </div>
-
-                            <div className="">
-                                <label htmlFor="password">Password</label>
-                                <input type="password" required onChange={(event) => { setDataRegister({...dataRegister, password: event.target.value}) }} value={dataRegister.password || ''} name="password" id="password" placeholder='********'/>
-                            </div>
-
-                            <div className="">
-                                <label htmlFor="confirmPassword">Confirm Password</label>
-                                <input type="password" required onChange={(event) => { handleConfirmPassword(event) }} value={dataRegister.confirmPassword || ''} name="confirmPassword" id="confirmPassword" placeholder='********'/>
-                            </div>
-
-                            { dataRegister.password !== dataRegister.confirmPassword ? <span className={styles.passwordConfirm}>Password not corresponding</span> : ""}
-
-                            <div className={styles.btnGroupRegister}>
-                                <button className={styles.btnRegister}>Register</button>
-                                <Link to="/todolist-frontend/login"><p>After create a account, Go to <span>Login</span></p></Link>
-                            </div>
-
-                        </form>
-
-                    </div>
 
                 </div>  
             </section>  

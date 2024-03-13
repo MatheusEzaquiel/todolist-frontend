@@ -1,5 +1,5 @@
-import { Navigate } from "react-router-dom";
-import { Header } from "../components/Header/Header";
+import { Navigate } from "react-router-dom"
+import { Navbar } from "./../assets/Navbar/Navbar"
 import { UserService } from "../services/api/users/UserService";
 
 const PrivateRoute = ({children}) => {
@@ -12,13 +12,13 @@ const PrivateRoute = ({children}) => {
     if(!authToken) isAuthenticated = false
 
     if(authToken != null && authToken != undefined && authToken != "") {
-        isAuthenticated = true;
+        isAuthenticated = true
     }
 
     isAuthenticated ? children : <Navigate to="/todolist-frontend/login"/>
     
     if(isAuthenticated) {
-        return ( <><Header/> {children}</>)
+        return ( <><Navbar/> {children}</>)
     } else {
         UserService.logout()
         return <Navigate to="/todolist-frontend/login"/>
@@ -26,4 +26,4 @@ const PrivateRoute = ({children}) => {
 
 }
 
-export default PrivateRoute;
+export default PrivateRoute

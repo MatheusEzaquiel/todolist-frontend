@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react"
 import { useParams, useNavigate, Link } from "react-router-dom"
 
-import styles from "./EditList.module.css"
 
 import { Notification } from "./../../../components/notification/Notification";
 
 import { ApiException } from "../../../services/api/ApiException" 
 import { ChecklistService } from "../../../services/api/checklists/ChecklistService"
+import { HeaderPage } from "../../../components/header-page/HeaderPage";
+import { Input } from "./../../../components/input/Input"
 
 export const EditList = () => {
 
@@ -65,6 +66,13 @@ export const EditList = () => {
 
     }
 
+    const changeHandler = (e) => {
+
+        const inputId = e.target.id;
+    
+        if(inputId == "title") setTitle(e.target.value)
+    
+      }
 
     const blockFormRefresh = (e) => {
         e.preventDefault();
@@ -78,29 +86,39 @@ export const EditList = () => {
 
     return(
         
-        <section className={styles.section}>
+        <section className="section w-[60%] h-[100vh]">
 
-            <div className={styles.headerMenu}>
-            </div>
+            <HeaderPage title="Lists">
+                <i>Edit the list</i>
+            </HeaderPage> 
 
-            <div className={styles.containerDefault}>
+            <div className="w-[90%] h-full mx-auto p-6 rounded bg-gray-200 lg:w-[40%] mt-32">
 
-                <div className={styles.formEdit}>
+                <div className="w-full h-full">
 
-                    <h2>Edit the list</h2>
+                    <h2 className="text-center text-3xl mb-6">Edit the list</h2>
 
-                    <form onSubmit={blockFormRefresh}>
+                    <form onSubmit={blockFormRefresh} className="w-full p-2 my-2 h-[60%]">
 
-                        <div className={styles.inputGroup}>
-                            <label htmlFor="checklistTitle">Title</label>
-                            <input type="text" onChange={(event) => { setTitle(event.target.value) }} value={title} name="checklistTitle" id="checklistTitle" placeholder={checklist?.title ?? 'Title...'}/>
-                        </div>
-                        
-                        <div className={styles.btnFlex}>
-                            <Link to={"/todolist-frontend/lists"}>
-                                <button className={styles.btnForm + " " + styles.btnBack}>Back</button>
+                        <Input 
+                            title={"Title"}
+                            type={"text"}
+                            placeholder={"title"}
+                            data={title}
+                            onChange={changeHandler}
+                            inputName={"title"}
+                            isRequired={true}
+                        />
+
+                        <div className="w-full h-36 flex flex-col items-center justify-center gap-4 mt-32 lg:flex-row">
+
+                            <Link to={"/todolist-frontend/lists"} className="w-full lg:w-1/2">
+                                <button className="w-full filter hover:brightness-80 bg-orange h-12 rounded text-white font-bold w-[50%]">
+                                Back</button>
                             </Link>
-                            <button className={styles.btnForm + " " + styles.btnEdit}>Update</button>
+
+                            <button className="w-full filter hover:brightness-80 bg-green  h-12 rounded text-white font-bold lg:w-[50%]">
+                            Update</button>
                         </div>
 
                     </form>

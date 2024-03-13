@@ -17,16 +17,16 @@ export const Notification = ({children, enabled, close, element}) => {
 
     return(
 
-            <div className="notification">
+            <div className="w-[80vw] h-[20vh] bg-orange z-10">
 
                 <div className="notificationHeader glassEffect">
                     <div className="iconAndTitle">
-                        <IoMdNotifications /><h4 className="title">Notification</h4>
+                        <IoMdNotifications color="gray"/><h4 className="title">Notification</h4>
                     </div> 
-                    <button onClick={close} className="btnCloseNotification"><IoClose /></button>
+                    <button onClick={close} className="btnCloseNotification"><IoClose color="gray"/></button>
                 </div>
                 <div className="notificationContent">
-                    <p className="text">{element?.message ?? children ?? "Action accepted"}</p>
+                    <p className="text-gray font-xl">{element?.message ?? children ?? "Action accepted"}</p>
                 </div>
             </div>
 

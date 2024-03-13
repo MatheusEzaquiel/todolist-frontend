@@ -1,14 +1,11 @@
-import { useEffect, useState } from "react";
-import { AiOutlineMore } from "react-icons/ai";
-import { LuArchiveRestore } from "react-icons/lu";
-
-import styles from "./ArchivedList.module.css";
+import { useEffect, useState } from "react"
+import { AiOutlineMore } from "react-icons/ai"
+import { LuArchiveRestore } from "react-icons/lu"
 
 import { Task } from "../Task/Task";
 import { Modal } from "../modal/Modal"
-import { Notification } from "../notification/Notification";
-import { ChecklistService } from "../../services/api/checklists/ChecklistService";
-import { ApiException } from "../../services/api/ApiException";
+import { Notification } from "../notification/Notification"
+import { ChecklistService } from "../../services/api/checklists/ChecklistService"
 
 
 export const ArchivedList = ( { checklistData, taskData, handleNotification, refreshUnarchivedLists } ) => {
@@ -83,34 +80,39 @@ export const ArchivedList = ( { checklistData, taskData, handleNotification, ref
 
     return(
 
-            <div className={styles.listContainer}>
+            <div className="w-100% h-[60vh] mb-4 bg-gray rounded lg:min-w-[24%] lg:h-[50vh]">
 
-                <div className={styles.listHeader}>
+                <div className="w-full h-[12%] flex items-center justify-between px-2 bg-yellow">
 
-                    <h3 className="truncate">{ checklistData.title }</h3>
+                    <h3 className="truncate text-2xl text-white">{ checklistData.title }</h3>
 
-                    <details className={styles.collapse}>
-                        <summary className={styles.title}><AiOutlineMore /></summary>
+                    <details className="bg-red z-10">
+                        <summary className="text-white text-5xl list-none"><AiOutlineMore /></summary>
 
-                            <button className={styles.btnList + " " + styles.unarchive} onClick={() => unarchiveList(checklistData.id)}>
-                                <div className={styles.btnWithIcon}>
-                                    <LuArchiveRestore /> <p>Unarchive</p>    
-                                </div>
-                            </button>
+                            <div className="w-[50vw] flex flex-col">
+                                <button className="filter hover:brightness-80 bg-yellow w-full h-12 rounded text-white font-bold" onClick={() => unarchiveList(checklistData.id)}>
+                                    <div className="flex items-center justify-center gap-2">
+                                        <LuArchiveRestore color="white"/> <p>Unarchive</p>    
+                                    </div>
+                                </button>
+                            </div>
 
                     </details>
 
                 </div>
 
-                <div className={styles.listBody}>
+                <div className="h-[75%] overflow-y-scroll overflow-x-hidden">
                     <Task taskData={taskData} checklistData={checklistData} isArchived={true}/>
                 </div>
 
                
 
-                <div className={styles.listFooter}>
-                    <button onClick={() => unarchiveList(checklistData.id)}>
-                        <span><LuArchiveRestore />Unarchive</span>
+                <div className="w-full h-[13%] flex items-center justify-center bg-yellow">
+                    <button onClick={() => unarchiveList(checklistData.id)} 
+                        className="text-white flex items-center justify-center gap-2 text-2xl"
+                    >
+                        <LuArchiveRestore color="white"/>
+                        <p>Unarchive</p>
                     </button>
                 </div>
 
