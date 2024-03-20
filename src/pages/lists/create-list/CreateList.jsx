@@ -69,13 +69,13 @@ export const CreateList = () => {
     return(
         
     
-        <section className="section w-[100vw] lg:flex items-center">
+        <section className="section w-[100vw] lg:w-[90%] lg:mx-auto">
 
             <HeaderPage title="Create">
                 <i className="">create lists</i>
             </HeaderPage>
 
-            <div className="w-[4/5] h-[60vh] mx-auto p-6 bg-gray-100 relative">
+            <div className="w-[60%] h-[60vh] mx-auto p-6 bg-gray-100 relative lg:mx-auto lg:mt-16 lg:h-[40vh]">
 
 
                     <h2 className="text-2xl text-center text-black pt-6 pb-8">Create a new list</h2>
@@ -93,11 +93,11 @@ export const CreateList = () => {
                         />
                     
 
-                        <div className="w-[80%] flex flex-col gap-4 absolute bottom-6 left-1/2 transform -translate-x-1/2">
-                            <Link to={"/todolist-frontend/lists"} className="min-w-36">
-                                <button className="w-full p-2 text-white font-medium text-lg bg-orange rounded">Back</button>
+                        <div className="w-[80%] flex flex-col gap-4 absolute bottom-6 left-1/2 transform -translate-x-1/2 lg:flex-row lg:justify-between pb-3">
+                            <Link to={"/todolist-frontend/lists"} className="lg:w-[45%]">
+                                <button className="w-full p-2 text-white font-medium text-lg bg-orange rounded-lg lg:full">Back</button>
                             </Link>
-                            <button className="min-w-36 p-2 text-white font-medium text-lg bg-green rounded">Create</button>
+                            <button className="w-full p-2 text-white font-medium text-lg bg-green rounded-lg lg:w-[45%]">Create</button>
                         </div>
                     </form>
              
