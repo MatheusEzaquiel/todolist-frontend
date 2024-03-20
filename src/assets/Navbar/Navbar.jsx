@@ -92,7 +92,7 @@ export const Navbar = () => {
                 {
                     isOpen ? (
 
-                        <ul className="flex justify-around items-center gap-16 text-xl py-2 bg-orange text-white font-semibold md:hidden">
+                        <ul className="flex justify-around items-center gap-16 text-xl py-2 bg-orange-2 text-white font-semibold md:hidden">
                     
                             <Link to={"/todolist-frontend/lists"}>
                                 <li className="">Lists</li>

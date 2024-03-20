@@ -8,8 +8,16 @@ export const ButtonLogout = ({children}) => {
     const navigate = useNavigate();
 
     const handlerRemoveUserToken = () => {
+        /*UserService.logout();
+        navigate("/");*/
+
         UserService.logout();
-        navigate("/");
+
+        setTimeout(() => {
+            //navigate("/todolist-frontend/login")
+            navigate(0)
+        }, 2000)
+            
     }
 
     return (

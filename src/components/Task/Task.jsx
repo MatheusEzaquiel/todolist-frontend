@@ -1,5 +1,3 @@
-import styles from './Task.module.css';
-
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GoChevronDown } from "react-icons/go";
@@ -39,7 +37,7 @@ import { Modal } from '../modal/Modal';
         updateTask(taskId, checkboxStates[index])
     };
 
-    
+
     const openModal = (selectedTask) => {
 
         setIsOpen(true)
@@ -143,7 +141,7 @@ import { Modal } from '../modal/Modal';
 
                 <div className="w-full h-32 border-b border-gray-300 p-2 flex items-center justify-between relative" key={index}>
 
-                    <div className="w-4/5 flex items-center justify-center gap-2">      
+                    <div className="w-4/5 flex items-center justify-between gap-2">      
                         
                         <input
                             type="checkbox"
@@ -156,40 +154,60 @@ import { Modal } from '../modal/Modal';
                                 handleCheckboxChange(index)
                                 checkTasks(task.id, index)
                             }}
+                            disabled
                         />
                         
-                        <label htmlFor={`taskToCheck_${task.id}`} className={styles.switch}>
-                            <span className={styles.slider}></span>
+                        <label htmlFor={`taskToCheck_${task.id}`} className="">
+                            <span className=""></span>
                         </label>
 
                         <input type="text" name="taskTitle" id="taskTitle" className="text-2xl bg-transparent outline-none text-wrap text-gray-5 truncate"  value={task.title} style={checkboxStates[index] ? {textDecoration: 'line-through'} : {}}/>
                         
                         
-                        <p className="text-red font-bolder">
+                        <div className="flex items-center text-sm text-red font-bolder absolute bottom-2 left-6">
                             { checkboxStates[index]
-                                ? <p style={{color: "green"}}><MdDone />done!</p>
-                                : task?.endAtDate ? <p style={{color: "red"}}><IoWarningOutline />Expire in {calcExpirationDate(task?.endAtDate)} days</p> : ""
+                                ?   <>
+                                        <MdDone />
+                                        <p style={{color: "green"}}>done!</p>
+                                    </>
+                                    
+                                : task?.endAtDate
+                                    ?   <>
+                                            <IoWarningOutline color='red'/>
+                                            <p className="text-red pl-1">Expire in {calcExpirationDate(task?.endAtDate)} days</p>
+                                        </>
+                                    : ""
                             }
-                        </p>
+                        </div>
 
                     </div>
 
                     
                     {isArchived !== true ? (
                     
-                        <details name="collapseActions" className={styles.collapseTask}>
-                        <summary className="list-none"><GoChevronDown /></summary>
-                        
-                            <button onClick={ () => { navigate(`/todolist-frontend/edit/${checklistData.id}/${task.id}`)} } className="w-full h-full flex gap-2 items-center justify-center bg-white hover:text-green font-semibold" style={{borderRadius: "10px 10px 0px 0px "}}>
-                                    <MdEdit size={"1.5rem"}/>
-                                    <p>Edit</p>
-                            </button>
+                        <details name="collapseActions" className="w-32 h-1/2 p-2 absolute top-10 right-6">
 
-                            <button onClick={ () => { openModal(task.id) } } className={styles.item + " " + styles.remove} style={{borderRadius: "0px 0px 10px 10px"}}>
-                                <div className="w-full h-full flex gap-2 items-center justify-center bg-white hover:text-red font-semibold">
-                                    <FaTrash size={"1.3rem"}/> <p>Remove</p>  
-                                </div>
-                            </button>
+                            <summary className="list-none w-full h-12 flex justify-end">
+                                <GoChevronDown size={"40px"} className='-z-5'/>
+                            </summary>
+
+                            <div className="w-full h-32 absolute z-40">
+
+                                <button onClick={ () => { navigate(`/todolist-frontend/edit/${checklistData.id}/${task.id}`)} } 
+                                    className="w-full h-1/2 p-2 flex gap-2 items-center justify-center bg-white text-green hover:text-green font-semibold border border-gray-300">
+                                        <MdEdit size={"1.5rem"}/>
+                                        <p>Edit</p>
+                                </button>
+
+                                <button onClick={ () => { openModal(task.id) } }
+                                    className="w-full h-1/2 p-2 flex gap-2 items-center justify-center bg-white text-red hover:text-green font-semibold border border-gray-300">
+
+                                    <FaTrash size={"1.3rem"}/>
+                                    <p>Remove</p>  
+
+                                </button>
+                            </div>
+                                
                         
                         </details>
                     

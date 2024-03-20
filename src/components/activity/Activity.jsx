@@ -26,7 +26,6 @@ const Activity = () => {
         } catch (ex) {
 
             if (ex instanceof ApiException) {
-                console.error("API EXCEPTION: " + ex.message);
                 setResultApi(ex.message)
                 setIsOpenNotification(true)
             }
@@ -44,7 +43,7 @@ const Activity = () => {
     return(
         <div className="w-full lg:w-[40%] lg:h-[60%] lg:mt-8">
 
-            <h2 className="text-2xl text-black text-center mb-10">Your activity</h2>
+            <h2 className="text-2xl text-black text-center mb-10 font-medium">Your activity</h2>
 
             <Link to="/todolist-frontend/lists">
                 <div className="w-full h-20 flex justify-between items-center px-4 mb-6 bg-gray-200 rounded hover:bg-green-2 hover:-translate-y-2 lg:hover:translate-x-16 duration-500">

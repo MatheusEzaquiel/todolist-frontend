@@ -1,13 +1,10 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 
-import { GoPerson } from "react-icons/go"
-
 import { Notification } from "../../components/notification/Notification"
 import { UserService } from "../../services/api/users/UserService"
 import { PainelApresentation } from "../../components/painelApresentation/PainelApresentation"
 import { Input } from "../../components/input/Input";
-import { data } from "autoprefixer"
 
 
 export const Register = () => {

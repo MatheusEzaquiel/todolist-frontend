@@ -8,7 +8,6 @@ import { HeaderPage } from "../../components/header-page/HeaderPage"
 import emptyImg from "./../../assets/img/empty-figure.svg"
 
 
-
 export const ArchivedListsPage = () => {
 
   const [userLoggedData] = useState(JSON.parse(localStorage.getItem("userLoggedData")));
@@ -47,7 +46,7 @@ export const ArchivedListsPage = () => {
         
       <div className="w-full">
 
-        <div className="w-full p-4 bg-green lg:w-[90%] lg:flex lg:gap-6 lg:flex-wrap lg:mx-auto lg:bg-green">
+        <div className="w-full p-4 lg:w-[90%] lg:flex lg:gap-6 lg:flex-wrap lg:mx-auto">
 
           { checklists?.length > 0 ? 
               

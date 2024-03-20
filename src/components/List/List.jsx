@@ -69,34 +69,41 @@ export const List = ( { checklistData, taskData, handleNotification, archivingLi
 
     return(
 
-            <div className="w-100% h-[60vh] mb-4 bg-gray rounded lg:min-w-[24%] lg:h-[50vh]">
+            <div className="w-100% h-[60vh] mb-4 bg-gray rounded-lg lg:min-w-[24%] lg:h-[50vh]">
 
                 {/* Header */}
-                <div className="w-full h-[12%] flex items-center justify-between px-2 bg-orange">
+                <div className="w-full h-[12%] flex items-center justify-between relative px-2 bg-orange rounded-t-lg">
 
                     <h3 className="truncate text-2xl text-white">{ checklistData.title }</h3>
 
-                    <details name="collapse" className="bg-red z-10">
+                    <details name="collapse" className="w-32 z-10 absolute top-2 right-2">
                         
-                        <summary className="text-white text-5xl list-none"><AiOutlineMore /></summary>
+                        <summary className="text-white text-5xl list-none flex justify-end">
+                            <AiOutlineMore />
+                        </summary>
 
                         <div className="w-[50vw] flex flex-col">
 
-                            <Link to={`/todolist-frontend/edit-checklist/${checklistData.id}`}>
-                            <button className="filter hover:brightness-80 bg-green-2 w-full h-12 rounded text-white font-bold" onClick={(e) => handlerChangeActionList(e)}>
-                                <div className="flex items-center justify-center gap-2">
-                                    <MdEdit color="white"/>
-                                    <p>Edit</p>  
-                                </div>
-                            </button>
-                            </Link>
+                            <div className="w-full h-32 absolute z-40">
 
-                            <button className="filter hover:brightness-80 bg-yellow w-full h-12 rounded text-white font-bold" onClick={() => { setIsOpen(true); }}>
-                                <div className="flex items-center justify-center gap-2">
-                                    <IoArchive />
-                                    <p>Archive</p> 
-                                </div>
-                            </button>
+                                <Link to={`/todolist-frontend/edit-checklist/${checklistData.id}`}>
+                                <button className="filter hover:brightness-80 bg-green w-full h-12 rounded-t-lg text-white font-bold" onClick={(e) => handlerChangeActionList(e)}>
+                                    <div className="flex items-center justify-center gap-2">
+                                        <MdEdit />
+                                        <p>Edit</p>  
+                                    </div>
+                                </button>
+                                </Link>
+
+                                <button className="filter hover:brightness-80 bg-yellow w-full h-12 rounded-b-lg text-white font-bold" onClick={() => { setIsOpen(true); }}>
+                                    <div className="flex items-center justify-center gap-2">
+                                        <IoArchive />
+                                        <p>Archive</p> 
+                                    </div>
+                                </button>
+                            
+                            </div>
+
                         </div>
 
                     </details>
@@ -104,12 +111,12 @@ export const List = ( { checklistData, taskData, handleNotification, archivingLi
                 </div>
                 
 
-                <div className="h-[75%] overflow-y-scroll overflow-x-hidden">
+                <div className="h-[75%] overflow-y-scroll overflow-x-hidden overflow-y-hidden">
                     <Task taskData={taskData} checklistData={checklistData} isArchived={false}/>
                 </div>
 
                 {/* Footer */}
-                <div className="w-full h-[13%] flex items-center justify-center bg-orange">
+                <div className="w-full h-[13%] flex items-center justify-center bg-orange rounded-b-lg">
                     <Link to={`/todolist-frontend/create-task/${checklistData.id}`}>
                         <button className="text-white flex items-center justify-center gap-2 text-2xl">
                             <GoPlusCircle fontSize="2.5rem"/>
@@ -117,7 +124,6 @@ export const List = ( { checklistData, taskData, handleNotification, archivingLi
                         </button>
                     </Link>
                 </div>
-
 
                 <Modal openModal={isOpen} closeModal={ () => { setIsOpen(false) }} confirmDelete={ () => { setConfirmDelete(true) } }>
                     <p>Are you sure archive this List?</p>

@@ -1,15 +1,12 @@
 import { useState, useEffect } from "react"
-import { useParams, useNavigate } from "react-router-dom"
-import { Link } from "react-router-dom"
+import { useParams, useNavigate, Link } from "react-router-dom"
 
-
-import styles from "./EditTask.module.css";
-
-import { Notification } from "../../../components/notification/Notification";
 import { TaskService } from "./../../../services/api/tasks/taskService"
 import { TaskPriorityService } from "../../../services/api/taskPriority/TaskPriorityService";
 import { ChecklistService } from "../../../services/api/checklists/ChecklistService";
-
+import { Notification } from "../../../components/notification/Notification"
+import { Input } from "../../../components/input/Input"
+import { InputArea } from "../../../components/input/InputArea"
 
 export const EditTask = () => {
 
@@ -21,7 +18,7 @@ export const EditTask = () => {
 
     const [ title, setTitle] = useState("")
     const [ description, setDescription] = useState("")
-    const [ priority, setPriority] = useState()
+    const [ priority, setPriority] = useState("no")
 
     const [ startAtDate, setStartAtDate] = useState("")
     const [ startAtTime, setStartAtTime] = useState("")
@@ -41,6 +38,7 @@ export const EditTask = () => {
         try {
 
             const res = await TaskService.getById(taskId)
+            console.log("task: " + res)
             setTask(res)
 
         } catch (ex) {
@@ -77,6 +75,17 @@ export const EditTask = () => {
            console.log("Error: " + ex.message)
         } 
 
+    }
+
+    const changeHandler = (e) => {
+        const inputId = e.target.id
+        if(inputId == "title") setTitle(e.target.value)
+        if(inputId == "description") setDescription(e.target.value)
+        if(inputId == "priority") setPriority(e.target.value)
+        if(inputId == "startAtDate") setStartAtDate(e.target.value)
+        if(inputId == "startAtTime") setStartAtTime(e.target.value)
+        if(inputId == "endAtDate") setEndAtDate(e.target.value)
+        if(inputId == "endAtTime") setEndAtTime(e.target.value)     
     }
 
     useEffect(() => {
@@ -131,6 +140,10 @@ export const EditTask = () => {
 
     }
 
+    const formatTime = (textTime) => {
+        return textTime?.substring(0,5)
+    }
+
     const blockFormRefresh = (e) => {
         e.preventDefault();
         updateTask();
@@ -138,66 +151,90 @@ export const EditTask = () => {
 
     return (
 
-        <section className={styles.section}>
+        <section className="section w-[100%] h-[100vh] mx-auto">
 
-            <div className={styles.headerMenu}>
-                <h1 className={styles.title}><h2>Edit this task from <span span style={{color: "#ed6f07"}}>{checklistSelected?.title ?? "no title"}</span></h2></h1>
+            <div className="w-[100%] flex items-center justify-center p-3 pb-5 border-b-2 border-gray-200">
+                <h1 className="text-center pt-8 text-3xl">Edit this task from <span span style={{color: "#ed6f07"}}>{checklistSelected?.title ?? "no title"}</span></h1>
             </div>
-            
-            <div className={styles.containerDefault}>
-                <form onSubmit={blockFormRefresh} className={styles.formEditTask}>
 
-                    <div className={styles.inputGroup}>
-                        <label htmlFor="titleTask">Title</label>
-                        <input type="text" onChange={(event) => { setTitle(event.target.value) }} value={title} name="titleTask" id="titleTask" placeholder={task?.title ?? 'Title task'}/>
-                    </div>
+            <div className="w-[90%]  mx-auto p-2 rounded bg-white lg:w-[60%] mt-8">
+                
+                <form onSubmit={blockFormRefresh} className="w-full p-2 my-2 h-[60%] bg-gray-100 p-6">
 
-                    <div className={styles.inputGroup}>
-                        <label htmlFor="textTask">Description</label>
-                        <textarea type="text" onChange={(event) => { setDescription(event.target.value) }} value={description} name="textTask" id="textTask" placeholder={task?.description ?? 'Description task'}></textarea>
-                    </div>
+                    <Input 
+                        title={"Title"}
+                        type={"text"}
+                        placeholder={task ? task.title : ""}
+                        data={title}
+                        onChange={changeHandler}
+                        inputName={"title"}
+                        isRequired={false}
+                    />
 
-                    <div className={styles.dateTimeBox}>
+                    <InputArea 
+                        title={"Description"}
+                        placeholder={task ? task.description : ""}
+                        data={description}
+                        onChange={changeHandler}
+                        rows="4"
+                        inputName={"description"}
+                        isRequired={false}
+                    />
 
-                        <div className={styles.inputGroupDateTime}>
 
-                            <label htmlFor="startedAtTask">Start on Date <span>{task?.startAtDate ?? ''}</span></label>
-                            <input type="date" className={styles.inputDateTime} onChange={(event) => { setStartAtDate(event.target.value) }}  value={startAtDate} name="startedAtTask" id="startedAtTask"/>
 
+                    <div className="w-[100%] flex flex-col mb-6 lg:flex-row">
+                        <div className="w-[100%] flex flex-col mb-6 lg:flex-row">
+                            <label htmlFor="startedAtTask" className="flex gap-2 items-center justify-between mb-1 font-semibold text-lg mr-2">
+                                <p>Start on Date</p>
+                                <p className="text-gray-5 text-md">{task ? task.startAtDate : ""}</p>
+                            </label>
+                            <input type="date" className="p-3 rounded bg-gray focus:outline-none focus:bg-gray-200" onChange={(event) => { setStartAtDate(event.target.value) }} value={startAtDate} name="startedAtTask" id="startedAtTask"/>
                         </div>
 
-                        <div className={styles.inputGroupDateTime}>
-                            <label htmlFor="startedAtTask">Start at time <span>{task?.startAtTime ?? ''}</span></label>
-                            <input type="time"  className={styles.inputDateTime} onChange={(event) => { setStartAtTime(event.target.value) }} value={startAtTime} name="startedAtTask" id="startedAtTask"/>
-                        </div>
-                        
-                    </div>
-
-                    <div className={styles.dateTimeBox}>
-                        <div className={styles.inputGroupDateTime}>
-                            <label htmlFor="endAtTask">End on date <span>{task?.endAtDate ?? ''}</span></label>
-                            <input type="date" className={styles.inputDateTime} onChange={(event) => { setEndAtDate(event.target.value) }} value={endAtDate} name="endAtTask" id="endAtTask"/>
-                        </div>
-
-                        <div className={styles.inputGroupDateTime}>
-                            <label htmlFor="endAtTask">End at time <span>{task?.endAtTime ?? ''}</span></label>
-                            <input type="time" className={styles.inputDateTime} onChange={(event) => { setEndAtTime(event.target.value) }} value={endAtTime} name="endAtTask" id="endAtTask"/>
+                        <div className="w-[100%] flex flex-col mb-6 lg:flex-row">
+                            <label htmlFor="startedAtTask" className="flex gap-2 items-center justify-between mb-1 font-semibold text-lg mr-2">
+                                <p>Start at time</p>
+                                <p className="text-gray-5 text-md">{task ? formatTime(task.endAtTime) : ""}</p>
+                            </label>
+                            <input type="time" className="p-3 rounded bg-gray focus:outline-none focus:bg-gray-200" onChange={(event) => { setStartAtTime(event.target.value) }} value={startAtTime} name="startAtTime" id="startAtTime" placeholder={task ? task.title : ""}/>
                         </div>
                     </div>
 
-                    <div className={styles.priorityBox}>
+                    <div className="w-[100%] flex flex-col mb-6 lg:flex-row">
+                        <div className="w-[100%] flex flex-col mb-6 lg:flex-row">
+                            <label htmlFor="endAtTask" className="flex gap-2 items-center justify-between mb-1 font-medium text-lg mr-2">
+                                <p>End on Date</p>
+                                <p className="text-gray-5 text-md">{task ? task.endAtDate : ""}</p>
+                            </label>
+                            <input type="date" className="p-3 rounded bg-gray focus:outline-none focus:bg-gray-200 text-lg mr-2" onChange={(event) => { setEndAtDate(event.target.value) }} value={endAtDate} name="endAtTask" id="endAtTask"/>
+                        </div>
 
-                        <div className={styles.priorityInputGroup}>
-                            <label htmlFor="endAtTask">Current priority</label>
-                            <div style={{color: colorPriority(priority == null ? task?.priority : priority)}}> 
-                                <h4>{priority == null ? task?.priority : priority}</h4>
+                        <div className="w-[100%] flex flex-col mb-6 lg:flex-row">
+                            <label htmlFor="endAtTask" className="flex gap-2 items-center justify-between mb-1 font-semibold text-lg mr-2">
+                                <p>End on Date</p>
+                                <p className="text-gray-5 text-md">{task ? formatTime(task.endAtTime) : ""}</p>
+                            </label>
+                            <input type="time" className="p-3 rounded bg-gray focus:outline-none focus:bg-gray-200" onChange={(event) => { setEndAtTime(event.target.value) }} value={endAtTime} name="endAtTask" id="endAtTask" placeholder='End task'/>
+                        </div>
+                    </div>
+
+
+                    <div className="flex justify-between">
+
+
+                        <div className="w-1/2">
+                            <label htmlFor="endAtTask" className="text-lg font-semibold">Current priority</label>
+                            <div className="flex items-center justify-center mt-6"> 
+                                <h4 style={{color: colorPriority(priority)}} className="text-3xl pt-4 font-medium">{priority}</h4>
                             </div>
                         </div>
 
+
                         
-                        <div className={styles.priorityInputGroup}>
-                            <label htmlFor="endAtTask">Choose priority</label>
-                            <select name="priorityTask" id="priorityTask" style={{background: colorPriority()}} className={styles.selectPriorityTask} onChange={(event) => { setPriority(event.target.value);}}>
+                        <div className="w-1/2">
+                            <label htmlFor="endAtTask" className="text-lg font-semibold">Choose priority</label>
+                            <select name="priorityTask" id="priorityTask" className="w-[80%] h-full text-center text-xl text-black font-medium mt-4 bg-gray" onChange={(event) => { setPriority(event.target.value);}}>
                         
                                 {   
                                     (priorities != null) ? (
@@ -219,11 +256,11 @@ export const EditTask = () => {
                     </div>
                     
                     
-                    <div className={styles.btnFlex}>
-                        <Link to={"/todolist-frontend/lists"}>
-                            <button className={styles.btnForm + " " + styles.btnBack}>Back</button>
+                    <div className="w-full h-36 flex flex-col items-center justify-center gap-4 mt-32 lg:flex-row lg:gap-12">
+                        <Link to={"/todolist-frontend/lists"} className="w-full lg:w-[40%]">
+                            <button className="w-full filter hover:brightness-80 bg-orange h-12 rounded text-white font-bold w-[50%]">Back</button>
                         </Link>
-                        <button className={styles.btnForm + " " + styles.btnEdit}>update</button>
+                        <button className="w-full filter hover:brightness-80 bg-green h-12 rounded text-white font-bold lg:w-[40%]">update</button>
                     </div>
                     
                     <Notification
@@ -235,7 +272,7 @@ export const EditTask = () => {
                 </form>
                 
             </div>
-        
+
         </section>
         
     )

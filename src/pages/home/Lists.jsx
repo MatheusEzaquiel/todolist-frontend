@@ -2,17 +2,13 @@ import { useEffect, useState } from "react"
 import { Link } from 'react-router-dom'
 import { GoPlusCircle } from "react-icons/go"
 
-import "./Lists.css"
-
 import { ChecklistService } from "./../../services/api/checklists/ChecklistService"
 import { ApiException } from "../../services/api/ApiException"
+import useDataAuth from '../../app/useDataAuth';
 import { List } from "./../../components/List/List"
 import { Notification } from "./../../components/notification/Notification"
 import { ButtonAddCard } from "../../components/button-add-card/ButtonAddCard"
 import { HeaderPage } from "../../components/header-page/HeaderPage"
-
-import useDataAuth from '../../app/useDataAuth';
-
 
 
 export const Lists = () => {
@@ -73,7 +69,7 @@ export const Lists = () => {
         
       <div className="w-full">
 
-          <div className="w-full p-4 bg-green lg:w-[90%] lg:flex lg:gap-6 lg:flex-wrap lg:mx-auto lg:bg-green">
+          <div className="w-full p-4 lg:w-[90%] lg:flex lg:gap-6 lg:flex-wrap lg:mx-auto">
 
           {
                 checklists ? 

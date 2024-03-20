@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-
+import { GoKey, GoPerson } from "react-icons/go"
+import { MdAlternateEmail } from "react-icons/md";
 
 
 import { Notification } from "../../components/notification/Notification"
@@ -94,53 +95,50 @@ export const Profile = () => {
 
         <section className="w-screen">
 
-            <div className="hidden">
-            <HeaderPage>
-                <h1 className="font-medium">Profile</h1>
-                <i>View your data</i>
-            </HeaderPage>
-            </div>
 
             <div className="p-6 lg:w-4/5 lg:mx-auto lg:flex lg:items-center lg:justify-center lg lg:gap-5 lg:h-[80vh]">
 
                 <form className="mb-16 lg:w-[60%] lg:h-[60%] bg-white lg:px-32" onSubmit={blockFormRefresh} >
 
-                    <h2 className="text-orange-100 font-bold text-5xl text-center my-8">User</h2>
+                    <h2 className="text-orange-100 font-bold text-4xl text-center my-8">Profile</h2>
 
                     <Input 
                         title={"Username"}
                         type={"text"}
-                        placeholder={"username"}
+                        placeholder={userData?.username}
                         data={userData?.username}
                         onChange={changeHandler}
                         inputName={"username"}
-                        isRequired={true}
+                        isRequired={false}
+                        icon={<GoPerson/>}
                     />
 
                     <Input 
                         title={"E-mail"}
                         type={"email"}
-                        placeholder={"email"}
+                        placeholder={userData?.email}
                         data={userData?.email}
                         onChange={changeHandler}
                         inputName={"email"}
-                        isRequired={true}
+                        isRequired={false}
+                        icon={<MdAlternateEmail />}
                     />
 
                     <Input 
                         title={"Password"}
                         type={"password"}
                         placeholder={"********"}
-                        value={userData?.password}
+                        data={userData?.password}
                         onChange={changeHandler}
                         inputName={"password"}
-                        isRequired={true}
+                        isRequired={false}
+                        icon={<GoKey/>}
                     />
 
                     
                     <div className="flex flex-col justify-around w-auto h-40 mt-16 lg:w-full lg:gap-4 lg:flex lg:flex-row lg:mx-auto lg:justify-around">
 
-                        <button className="filter hover:brightness-80 bg-orange w-full h-12 rounded text-white font-bold lg:w-1/2" onClick={() => { navigate("/lists") }}>Back</button>
+                        <button className="filter hover:brightness-80 bg-orange w-full h-12 rounded text-white font-bold lg:w-1/2" onClick={() => { navigate("/todolist-frontend/lists") }}>Back</button>
 
                         <button className="filter hover:brightness-80 bg-green-2 w-full h-12 rounded text-white font-bold lg:w-1/2" onClick={() => updateUser()}>Update</button>
 

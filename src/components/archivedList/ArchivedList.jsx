@@ -80,9 +80,9 @@ export const ArchivedList = ( { checklistData, taskData, handleNotification, ref
 
     return(
 
-            <div className="w-100% h-[60vh] mb-4 bg-gray rounded lg:min-w-[24%] lg:h-[50vh]">
+            <div className="w-100% h-[60vh] mb-4 bg-gray rounded-lg lg:min-w-[24%] lg:h-[50vh]">
 
-                <div className="w-full h-[12%] flex items-center justify-between px-2 bg-yellow">
+                <div className="w-full h-[12%] flex items-center justify-between px-2 bg-yellow  rounded-t-lg">
 
                     <h3 className="truncate text-2xl text-white">{ checklistData.title }</h3>
 
@@ -92,7 +92,8 @@ export const ArchivedList = ( { checklistData, taskData, handleNotification, ref
                             <div className="w-[50vw] flex flex-col">
                                 <button className="filter hover:brightness-80 bg-yellow w-full h-12 rounded text-white font-bold" onClick={() => unarchiveList(checklistData.id)}>
                                     <div className="flex items-center justify-center gap-2">
-                                        <LuArchiveRestore color="white"/> <p>Unarchive</p>    
+                                        <LuArchiveRestore color="white"/>
+                                        <p>Unarchive</p>    
                                     </div>
                                 </button>
                             </div>
@@ -107,7 +108,7 @@ export const ArchivedList = ( { checklistData, taskData, handleNotification, ref
 
                
 
-                <div className="w-full h-[13%] flex items-center justify-center bg-yellow">
+                <div className="w-full h-[13%] flex items-center justify-center bg-yellow rounded-b-lg">
                     <button onClick={() => unarchiveList(checklistData.id)} 
                         className="text-white flex items-center justify-center gap-2 text-2xl"
                     >

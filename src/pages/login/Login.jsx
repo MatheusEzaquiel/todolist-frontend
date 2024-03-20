@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
 import { GoKey, GoPerson } from "react-icons/go"
 
 import { Notification } from "../../components/notification/Notification";
@@ -81,7 +80,7 @@ export const Login = () => {
         </PainelApresentation>
 
         {/* Login form Side */}
-        <div className="p-6 h-[100%] flex items-center bg-white relative lg:w-1/2">
+        <div className="p-6 h-[100%] flex items-center bg-white relative lg:w-1/2 shadow-2xl">
           
           <form className="w-[100vw] h-full mr-auto ml-auto flex flex-col lg:w-11/12" onSubmit={blockFormRefresh}>
 
@@ -95,6 +94,7 @@ export const Login = () => {
               onChange={changeHandler}
               inputName={"username"}
               isRequired={true}
+              icon={<GoKey/>}
             />
 
             <Input 
@@ -105,6 +105,7 @@ export const Login = () => {
               onChange={changeHandler}
               inputName={"password"}
               isRequired={true}
+              icon={<GoPerson/>}
             />
 
             <div className="">
