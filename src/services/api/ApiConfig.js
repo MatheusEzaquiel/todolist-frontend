@@ -5,8 +5,7 @@ export const Api = () => {
     if(!localStorage.getItem("authToken")) {
 
         return axios.create({
-            //baseURL: "https://todolist-q55z.onrender.com"
-            baseURL: "http://localhost:8080"
+            baseURL: "https://todolist-q55z.onrender.com"
         })
 
     } else {
@@ -14,8 +13,7 @@ export const Api = () => {
         let token = localStorage.getItem("authToken")
 
         return axios.create({
-            //baseURL: "https://todolist-q55z.onrender.com",
-            baseURL: "http://localhost:8080",
+            baseURL: "https://todolist-q55z.onrender.com",
             headers: {
                 "Authorization": `Bearer ${token}`
             }
