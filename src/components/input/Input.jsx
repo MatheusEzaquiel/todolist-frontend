@@ -9,7 +9,7 @@ export const Input = ({title, type, value, onChange, inputName, placeholder, isR
     
     return(
         <div className="w-[100%] flex flex-col mb-6">
-            <label htmlFor={title} className="flex gap-2 items-center mb-4 font-semibold text-xl lg:text-2xl ">
+            <label htmlFor={title} className="flex gap-2 items-center mb-4 font-semibold text-xl lg:text-xl ">
                 <span>
                     {icon}
                 </span>
@@ -20,7 +20,7 @@ export const Input = ({title, type, value, onChange, inputName, placeholder, isR
                 type={type}
                 onChange={onChange}
                 value={value}
-                className="p-3 rounded bg-gray focus:outline-none focus:bg-gray-200 lg:p-4 lg:text-2xl"
+                className="p-3 rounded bg-gray focus:outline-none focus:bg-gray-200 lg:p-2 lg:text-xl"
                 name={title}
                 id={inputName}
                 placeholder={placeholder}

@@ -1,5 +1,7 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import { GoKey, GoPerson } from "react-icons/go"
+import { MdAlternateEmail } from "react-icons/md";
 
 import { Notification } from "../../components/notification/Notification"
 import { UserService } from "../../services/api/users/UserService"
@@ -88,69 +90,72 @@ export const Register = () => {
         <> 
             
             <section className="w-screen h-screen p-0 m-0 lg:flex items-center">
-            <div className="lg:w-4/5 h-screen lg:flex mx-auto lg:h-4/5 xl:h-[90%] xl:w-[70%]">
-
-                <div className="p-6 h-[100%] flex items-center bg-white relative lg:w-1/2">
+                <div className="lg:w-4/5 h-screen lg:flex mx-auto lg:h-4/5 xl:h-[90%] xl:w-[70%]">
+                    <div className="p-6 h-[100%] flex items-center bg-white relative lg:w-1/2 lg:h-auto shadow-2xl">
                         
-                    <form className="w-[80vw] h-full mr-auto ml-auto flex flex-col lg:w-11/12" onSubmit={blockFormRefresh}>
+                        <form className="w-[80vw] h-full mr-auto ml-auto flex flex-col lg:w-[80%] lg:h-auto" onSubmit={blockFormRefresh}>
 
-                        <h2 className="font-semibold text-4xl text-center mt-16 mb-32">Register</h2>
+                            <h2 className="font-semibold text-4xl text-center mt-16 mb-6 lg:mb-0 lg:text-3xl lg:mt-0 lg:mb-6">Register</h2>
 
-                        <Input 
-                            title={"Username"}
-                            type={"text"}
-                            placeholder={"username"}
-                            data={dataRegister.username}
-                            onChange={changeHandler}
-                            inputName={"username"}
-                            isRequired={true}
-                        />
+                            <Input 
+                                title={"Username"}
+                                type={"text"}
+                                placeholder={"username"}
+                                data={dataRegister.username}
+                                onChange={changeHandler}
+                                inputName={"username"}
+                                isRequired={true}
+                                icon={<GoPerson/>}
+                            />
 
-                        <Input 
-                            title={"E-mail"}
-                            type={"email"}
-                            placeholder={"email"}
-                            data={dataRegister.email}
-                            onChange={changeHandler}
-                            inputName={"email"}
-                            isRequired={true}
-                        />
+                            <Input 
+                                title={"E-mail"}
+                                type={"email"}
+                                placeholder={"email"}
+                                data={dataRegister.email}
+                                onChange={changeHandler}
+                                inputName={"email"}
+                                isRequired={true}
+                                icon={<MdAlternateEmail />}
+                            />
 
-                        <Input 
-                            title={"Password"}
-                            type={"password"}
-                            placeholder={"********"}
-                            value={dataRegister.password}
-                            onChange={changeHandler}
-                            inputName={"password"}
-                            isRequired={true}
-                        />
-
-
-                        <Input 
-                            title={"Confirm Password"}
-                            type={"password"}
-                            placeholder={"********"}
-                            value={dataRegister.confirmPassword}
-                            inputName={"confirmPassword"}
-                            onChange={changeHandler}
-                            isRequired={true}
-                        />
-
-                        
-
-                        { dataRegister.password !== dataRegister.confirmPassword ? <span className=" text-right text-red font-semibold">Password not corresponding!</span> : ""}
-
-                        <div className="">
-                            <button className="bg-orange w-full h-10 mt-10 rounded text-white font-bold">Register</button>
-                            <Link to="/todolist-frontend/login"><p className="text-center font-medium mt-6">After create a account, Go to <span className=" text-orange-100">Login</span></p></Link>
-                        </div>
-
-                    </form>
+                            <Input 
+                                title={"Password"}
+                                type={"password"}
+                                placeholder={"********"}
+                                value={dataRegister.password}
+                                onChange={changeHandler}
+                                inputName={"password"}
+                                isRequired={true}
+                                icon={<GoKey/>}
+                            />
 
 
+                            <Input 
+                                title={"Confirm Password"}
+                                type={"password"}
+                                placeholder={"********"}
+                                value={dataRegister.confirmPassword}
+                                inputName={"confirmPassword"}
+                                onChange={changeHandler}
+                                isRequired={true}
+                                icon={<GoKey/>}
+                            />
 
-                </div>
+                            
+
+                            { dataRegister.password !== dataRegister.confirmPassword ? <span className="text-right text-red font-semibold">Password not corresponding!</span> : ""}
+
+                            <div className="mt-10 lg:mt-2">
+                                <button className="bg-orange w-full h-10 rounded text-white font-bold lg:">Register</button>
+                                <Link to="/todolist-frontend/login"><p className="text-center font-medium mt-6">After create a account, Go to <span className=" text-orange-100">Login</span></p></Link>
+                            </div>
+
+                        </form>
+
+
+
+                    </div>
 
                 <PainelApresentation 
                     title={"Create a account"}
