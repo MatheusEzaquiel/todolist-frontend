@@ -75,7 +75,7 @@ export const CreateList = () => {
                 <i className="">create lists</i>
             </HeaderPage>
 
-            <div className="w-[60%] h-[60vh] mx-auto p-6 bg-gray-100 relative lg:mx-auto lg:mt-16 lg:h-[40vh]">
+            <div className="w-[90%] h-[60vh] mx-auto p-6 bg-gray-100 relative lg:w-[60%] lg:mx-auto lg:mt-16 lg:h-[40vh]">
 
 
                     <h2 className="text-2xl text-center text-black pt-6 pb-8">Create a new list</h2>

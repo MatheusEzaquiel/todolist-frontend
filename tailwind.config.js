@@ -26,6 +26,7 @@ export default {
         'black': '#111111',
         'green': '#04d13b',
         'green-2': '#06bf28ac',
+        'green-3': '#88eb94',
         'green-200': '#1f7901',
         'light-rose': '#cfbaba'
       },

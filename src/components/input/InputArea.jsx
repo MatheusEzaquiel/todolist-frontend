@@ -1,6 +1,4 @@
-import { GoPerson } from "react-icons/go"
-
-export const InputArea = ({title, value, rows, onChange, inputName, placeholder, isRequired}) => {
+export const InputArea = ({title, value, rows, onChange, inputName, placeholder, isRequired, icon}) => {
 
     const dynamicAttributes = {}
 
@@ -11,7 +9,7 @@ export const InputArea = ({title, value, rows, onChange, inputName, placeholder,
         <div className="w-[100%] flex flex-col mb-6">
             <label htmlFor={title} className="flex gap-2 items-center mb-1 font-semibold text-xl">
                 <span>
-                    <GoPerson className="ml-3"/>
+                    {icon}
                 </span>{title}
             </label>
             <textarea

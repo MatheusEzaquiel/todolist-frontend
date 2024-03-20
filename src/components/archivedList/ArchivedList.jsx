@@ -33,14 +33,6 @@ export const ArchivedList = ( { checklistData, taskData, handleNotification, ref
 
             setResultApi({type: "error", message: ex.message})
 
-        }  finally {
-
-            //getAllDisabledLists();
-            /*
-            setConfirmDelete(false);
-            setIsOpen(false);
-            handleNotification();
-            */
         }
 
     }
@@ -61,15 +53,10 @@ export const ArchivedList = ( { checklistData, taskData, handleNotification, ref
             setConfirmDelete(false);
             setIsOpen(false)
             refreshUnarchivedLists();
-            //setIsOpenAlert(true)
-
-            //setTimeout(() => { setIsOpenAlert(false)}, 0.1)
         }
     }
 
     useEffect(() => {
-
-        //getAllDisabledLists();
 
         if(confirmDelete) {
             deleteChecklist(checklistData.id)
@@ -82,21 +69,24 @@ export const ArchivedList = ( { checklistData, taskData, handleNotification, ref
 
             <div className="w-100% h-[60vh] mb-4 bg-gray rounded-lg lg:min-w-[24%] lg:h-[50vh]">
 
-                <div className="w-full h-[12%] flex items-center justify-between px-2 bg-yellow  rounded-t-lg">
+                <div className="w-full h-[12%] flex items-center justify-between px-2 bg-yellow relative rounded-t-lg">
 
                     <h3 className="truncate text-2xl text-white">{ checklistData.title }</h3>
 
-                    <details className="bg-red z-10">
-                        <summary className="text-white text-5xl list-none"><AiOutlineMore /></summary>
+                    <details className="z-10 w-32 z-10 absolute top-0 right-0">
 
-                            <div className="w-[50vw] flex flex-col">
-                                <button className="filter hover:brightness-80 bg-yellow w-full h-12 rounded text-white font-bold" onClick={() => unarchiveList(checklistData.id)}>
-                                    <div className="flex items-center justify-center gap-2">
-                                        <LuArchiveRestore color="white"/>
-                                        <p>Unarchive</p>    
-                                    </div>
-                                </button>
-                            </div>
+                        <summary name="collapse" className="text-white text-5xl list-none flex justify-end">
+                            <AiOutlineMore />
+                        </summary>
+
+                        <div className="w-full flex flex-col">
+                            <button className="filter hover:brightness-80 bg-orange-2 w-full h-12 rounded text-white font-bold" onClick={() => unarchiveList(checklistData.id)}>
+                                <div className="flex items-center justify-center gap-2">
+                                    <LuArchiveRestore color="white"/>
+                                    <p>Unarchive</p>    
+                                </div>
+                            </button>
+                        </div>
 
                     </details>
 
@@ -110,8 +100,7 @@ export const ArchivedList = ( { checklistData, taskData, handleNotification, ref
 
                 <div className="w-full h-[13%] flex items-center justify-center bg-yellow rounded-b-lg">
                     <button onClick={() => unarchiveList(checklistData.id)} 
-                        className="text-white flex items-center justify-center gap-2 text-2xl"
-                    >
+                        className="text-white flex items-center justify-center gap-2 text-2xl">
                         <LuArchiveRestore color="white"/>
                         <p>Unarchive</p>
                     </button>

@@ -43,7 +43,6 @@ export const List = ( { checklistData, taskData, handleNotification, archivingLi
     const handlerChangeActionList = (e) => {
 
         if(e.target.value == "edit") {
-            console.log("ok");
             navigate(`/todolist-frontend/edit-checklist/${checklistData.id}`);
             
         } else {
@@ -69,7 +68,7 @@ export const List = ( { checklistData, taskData, handleNotification, archivingLi
 
     return(
 
-            <div className="w-100% h-[60vh] mb-4 bg-gray rounded-lg lg:min-w-[24%] lg:h-[50vh]">
+            <div className="w-100% h-[60vh] mb-4 bg-gray rounded-lg lg:min-w-[30%] lg:h-[50vh]">
 
                 {/* Header */}
                 <div className="w-full h-[12%] flex items-center justify-between relative px-2 bg-orange rounded-t-lg">
@@ -116,10 +115,10 @@ export const List = ( { checklistData, taskData, handleNotification, archivingLi
                 </div>
 
                 {/* Footer */}
-                <div className="w-full h-[13%] flex items-center justify-center bg-orange rounded-b-lg">
+                <div className="w-full h-[13%] flex items-center justify-center bg-orange rounded-b-lg lg:p-4">
                     <Link to={`/todolist-frontend/create-task/${checklistData.id}`}>
                         <button className="text-white flex items-center justify-center gap-2 text-2xl">
-                            <GoPlusCircle fontSize="2.5rem"/>
+                            <GoPlusCircle fontSize="2.2rem"/>
                             <p>new task</p>
                         </button>
                     </Link>

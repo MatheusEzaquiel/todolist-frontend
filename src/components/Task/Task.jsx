@@ -126,9 +126,7 @@ import { Modal } from '../modal/Modal';
             await TaskService.updateById(taskId, dataToUpload)
        
         } catch (ex) {
-            console.log(ex.message)
-        } finally {
-            console.log("update done task")
+            console.log("error to update task")
         }
 
     }
@@ -147,19 +145,15 @@ import { Modal } from '../modal/Modal';
                             type="checkbox"
                             name="taskToCheck"
                             id={`taskToCheck_${task.id}`}
-                            className={"checkbox"}
+                            className="appearance-none w-[40px] h-[31px] border-2 border-orange rounded-full bg-white ml-2 checked:bg-green-3 checked:border-12 checked:border-green"
                             value={task.id}
                             checked={checkboxStates[index]}
                             onChange={() => {
                                 handleCheckboxChange(index)
                                 checkTasks(task.id, index)
                             }}
-                            disabled
                         />
-                        
-                        <label htmlFor={`taskToCheck_${task.id}`} className="">
-                            <span className=""></span>
-                        </label>
+                   
 
                         <input type="text" name="taskTitle" id="taskTitle" className="text-2xl bg-transparent outline-none text-wrap text-gray-5 truncate"  value={task.title} style={checkboxStates[index] ? {textDecoration: 'line-through'} : {}}/>
                         
@@ -167,8 +161,8 @@ import { Modal } from '../modal/Modal';
                         <div className="flex items-center text-sm text-red font-bolder absolute bottom-2 left-6">
                             { checkboxStates[index]
                                 ?   <>
-                                        <MdDone />
-                                        <p style={{color: "green"}}>done!</p>
+                                        <MdDone className="text-green"/>
+                                        <p className="text-green">done!</p>
                                     </>
                                     
                                 : task?.endAtDate

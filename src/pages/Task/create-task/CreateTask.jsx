@@ -139,7 +139,7 @@ export const CreateTask = () => {
                         data={title}
                         onChange={changeHandler}
                         inputName={"title"}
-                        isRequired={true}
+                        isRequired={false}
                     />
 
                     <InputArea 
