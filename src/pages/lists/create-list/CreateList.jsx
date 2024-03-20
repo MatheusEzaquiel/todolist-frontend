@@ -94,10 +94,10 @@ export const CreateList = () => {
                     
 
                         <div className="w-[80%] flex flex-col gap-4 absolute bottom-6 left-1/2 transform -translate-x-1/2 lg:flex-row lg:justify-between pb-3">
-                            <Link to={"/todolist-frontend/lists"} className="lg:w-[45%]">
+                            <Link to={"/todolist-frontend/lists"} className="lg:w-[40%]">
                                 <button className="w-full p-2 text-white font-medium text-lg bg-orange rounded-lg lg:full">Back</button>
                             </Link>
-                            <button className="w-full p-2 text-white font-medium text-lg bg-green rounded-lg lg:w-[45%]">Create</button>
+                            <button className="w-full p-2 text-white font-medium text-lg bg-green rounded-lg lg:w-[40%]">Create</button>
                         </div>
                     </form>
              
