@@ -1,7 +1,5 @@
 # TO DO LIST
 
-<img src="./frontend/src/assets/img/todolist-home.png">
-
 ## What's the project?
 A project management tool for creating tasks and lists to organize your daily activities. This application permite create, view, update, mark like done and archive your tasks and lists.
 
