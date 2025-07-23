@@ -18,6 +18,7 @@ Make sure you have Node.js and npm installed. Then, navigate to the `frontend` d
 ## Execute the application
 
     npm run dev
+    aaaaaaaa
 
 ## Technologies
 
