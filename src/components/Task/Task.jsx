@@ -1,227 +1,236 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GoChevronDown } from "react-icons/go";
-import { MdEdit } from "react-icons/md";
+import { MdEdit, MdDone } from "react-icons/md";
 import { FaTrash } from "react-icons/fa";
-import { MdDone } from "react-icons/md";
 import { IoWarningOutline } from "react-icons/io5";
-
-import { TaskService } from "./../../services/api/tasks/taskService"
+import { TaskService } from "./../../services/api/tasks/taskService";
 import { Modal } from '../modal/Modal';
 
+export const Task = ({ taskData, checklistData, isArchived }) => {
+  const navigate = useNavigate();
+  const [tasks, setTasks] = useState([...taskData].sort((a, b) => a.position - b.position));
+  const [checkboxStates, setCheckboxStates] = useState(tasks.map(task => task.done));
+  const [isOpen, setIsOpen] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState([]);
+  const [draggedIndex, setDraggedIndex] = useState(null);
 
-    export const Task = ({ taskData, checklistData, isArchived }) => {
+  // Estado do menu flutuante
+  const [menuPos, setMenuPos] = useState({ top: 0, left: 0 });
+  const [openTaskId, setOpenTaskId] = useState(null);
+  const menuRef = useRef(null);
 
-    let arrayTasksDone = [];
+  const saveTimeout = useRef(null);
 
-    taskData.map((task) => {
-        arrayTasksDone.push(task.done)
-    })
+  // 👉 Reordena a lista localmente e agenda o salvamento
+  const handleDropTask = (e, dropIndex) => {
+    e.preventDefault();
+    if (draggedIndex === null) return;
 
-    const navigate = useNavigate();
+    const updatedTasks = [...tasks];
+    const draggedItem = updatedTasks[draggedIndex];
+    updatedTasks.splice(draggedIndex, 1);
+    updatedTasks.splice(dropIndex, 0, draggedItem);
 
-    const [checkboxStates, setCheckboxStates] = useState(arrayTasksDone)
+    const reordered = updatedTasks.map((task, idx) => ({
+      ...task,
+      position: idx + 1,
+    }));
 
-    const [isOpen, setIsOpen] = useState(false)
-    
-    const [confirmDelete, setConfirmDelete] = useState([])
+    setTasks(reordered);
+    setDraggedIndex(null);
+    scheduleAutoSave(reordered);
+  };
 
+  // ⏱️ Aguarda 20s após o último movimento para salvar
+  const scheduleAutoSave = useCallback((updatedTasks) => {
+    if (saveTimeout.current) clearTimeout(saveTimeout.current);
+    saveTimeout.current = setTimeout(() => handleAutoSaveOrder(updatedTasks), 20000);
+  }, []);
 
-    const handleCheckboxChange = (index) => {
-        const updatedCheckboxStates = [...checkboxStates]
-        updatedCheckboxStates[index] = !updatedCheckboxStates[index]
-        setCheckboxStates(updatedCheckboxStates)
+  // 💾 Envia nova ordem ao backend
+  const handleAutoSaveOrder = useCallback(async (updatedTasks) => {
+    try {
+      const ordered = [...updatedTasks].sort((a, b) => a.position - b.position);
+      const orderedIds = ordered.map((t) => t.uuid || t.id);
+
+      console.log("📦 Ordem enviada:", orderedIds);
+      await TaskService.updateOrderTasks(checklistData.id, orderedIds);
+      console.log("✅ Ordem salva automaticamente!");
+    } catch (ex) {
+      console.error("❌ Erro ao salvar ordem:", ex);
+    }
+  }, [checklistData.id]);
+
+  const handleCheckboxChange = (index) => {
+    const updated = [...checkboxStates];
+    updated[index] = !updated[index];
+    setCheckboxStates(updated);
+  };
+
+  const checkTasks = (taskId, index) => updateTask(taskId, checkboxStates[index]);
+
+  const openModal = (selectedTask) => {
+    setIsOpen(true);
+    setConfirmDelete([false, selectedTask]);
+  };
+
+  // 🔹 Mostra menu flutuante (60px acima, 80px à direita)
+  const openTaskOptions = (e, taskId) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    //setMenuPos({ top: rect.top - 60, left: rect.left + 80 });
+    setMenuPos({ top: rect.top - 60, left: rect.left + 80 });
+    setOpenTaskId(taskId);
+  };
+
+  const deleteTask = async (taskId) => {
+    try {
+      await TaskService.deleteById(taskId);
+      navigate(0);
+    } catch (ex) {
+      console.log(ex.message);
+    } finally {
+      setIsOpen(false);
+    }
+  };
+
+  const calcExpirationDate = (endDateString) => {
+    const current = new Date();
+    const [year, month, day] = endDateString.split("/");
+    const endAtDate = new Date(year, month - 1, day);
+    return Math.floor((endAtDate - current) / (1000 * 60 * 60 * 24));
+  };
+
+  const colorPriority = (priority) => {
+    if (isArchived) return "#636363";
+    switch (priority?.toUpperCase()) {
+      case "HIGH": return "#d90b1f";
+      case "MEDIUM": return "#e3770b";
+      case "LOW": return "#e3dc0b";
+      default: return "#8f8d8d";
+    }
+  };
+
+  // Fecha menu ao clicar fora
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setOpenTaskId(null);
+      }
     };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
-    const checkTasks = (taskId, index) => {
-        updateTask(taskId, checkboxStates[index])
-    };
-
-
-    const openModal = (selectedTask) => {
-
-        setIsOpen(true)
-
-        //console.log("1 - Modal Open")
-        //console.log("2 - task id selected: " + selectedTask)
-
-        setConfirmDelete([false, selectedTask])
-
+  useEffect(() => {
+    if (isOpen) {
+      const lists = document.getElementsByName("collapseActions");
+      for (let i = 0; i < lists.length; i++) lists[i].open = false;
     }
 
-    const deleteTask = async(taskId) => {
+    if (confirmDelete[0]) deleteTask(confirmDelete[1]);
 
-        try {
-                
-            //console.log("4 - deleteTask() is called")
-            //console.log("5 - task id in deleteTask: " + taskId)
+    return () => clearTimeout(saveTimeout.current);
+  }, [confirmDelete, isOpen]);
 
-            await TaskService.deleteById(taskId)
-            
-        } catch (ex) {
-            console.log(ex.message)
-        } finally {
-            setIsOpen(false)
-        }
-
+  const updateTask = async (taskId, index) => {
+    const dataToUpload = { done: !index };
+    try {
+      await TaskService.updateById(taskId, dataToUpload);
+    } catch {
+      console.log("error to update task");
     }
+  };
 
-    const calcExpirationDate = (endDateString) => {
-        
-        const currentData = new Date()
+  return (
+    <>
+      {tasks.map((task, index) => (
+        <div
+          key={task.id}
+          draggable
+          onDragStart={() => setDraggedIndex(index)}
+          onDragOver={(e) => e.preventDefault()}
+          onDrop={(e) => handleDropTask(e, index)}
+          onClick={(e) => openTaskOptions(e, task.id)}
+          className="w-full h-32 border-b border-gray-200 bg-slate-50
+            mb-4 p-2 rounded-2xl shadow-lg flex items-center justify-between relative"
+        >
+          <div className="w-4/5 flex items-start justify-start gap-2">
+            <input
+              type="checkbox"
+              className="appearance-none min-w-[30px] min-h-[30px] border-2 border-orange rounded-full bg-white
+                ml-2 checked:bg-green-3 checked:border-12 checked:border-green"
+              checked={checkboxStates[index]}
+              onChange={() => {
+                handleCheckboxChange(index);
+                checkTasks(task.id, index);
+              }}
+            />
+            <input
+              type="text"
+              className="text-2xl bg-transparent outline-none text-wrap text-gray-5 truncate"
+              value={task.title}
+              style={checkboxStates[index] ? { textDecoration: 'line-through' } : {}}
+              readOnly
+            />
+            <div className="flex items-center text-sm text-red font-bolder absolute bottom-2 left-6">
+              {checkboxStates[index] ? (
+                <>
+                  <MdDone className="text-green" />
+                  <p className="text-green">done!</p>
+                </>
+              ) : task?.endAtDate ? (
+                <>
+                  <IoWarningOutline color="red" />
+                  <p className="text-red pl-1">
+                    Expire in {calcExpirationDate(task?.endAtDate)} days
+                  </p>
+                </>
+              ) : null}
+            </div>
+          </div>
 
-        let endDateArr = endDateString.split("/")
+          {/* ✅ Só mostra o menu da task clicada */}
+          {openTaskId === task.id && (
+            <div
+              ref={menuRef}
+              className="bg-white/20 backdrop-blur-xl p-3 rounded-xl shadow-lg flex flex-col
+                border border-gray-200 z-60 transition-all duration-200"
+              style={{ top: menuPos.top, left: menuPos.left }}>
+              <button
+                onClick={() => navigate(`/todolist-frontend/edit/${checklistData.id}/${task.id}`)}
+                className="flex gap-2 items-center justify-center py-2 bg-green-300 hover:text-green-300 z-90"
+              >
+                <MdEdit size={"1.4rem"} />
+                <p>Edit</p>
+              </button>
 
-        const endAtDate = new Date(endDateArr[0], endDateArr[1] -1 , endDateArr[2])
+              <button
+                onClick={() => openModal(task.id)}
+                className="flex gap-2 items-center justify-center py-2 hover:text-red-300">
+                <FaTrash size={"1.2rem"} />
+                <p>Remove</p>
+              </button>
+            </div>
+          )}
 
-        const result = endAtDate - currentData;
+          <div
+            className="w-2 h-full absolute top-0 right-0"
+            style={{ background: colorPriority(task.priority) }}
+          ></div>
+        </div>
+      ))}
 
-        return Math.floor(result / (1000 * 60 * 60 * 24));
-
-    }
-
-
-    const colorPriority = (priority) => {
-
-        if(isArchived) return "#636363";
-
-        if(priority.toUpperCase() == "HIGH") return "#d90b1f";
-        if(priority.toUpperCase() == "MEDIUM") return "#e3770b";
-        if(priority.toUpperCase() == "LOW") return "#e3dc0b";
-        if(priority.toUpperCase() == "NO") return "#8f8d8d";
-        if(priority.toUpperCase() == "" || priority == null) return "#8f8d8d";
-
-    }
-
-    useEffect(() => { 
-
-        /*console.log("3 - useEffect task called")
-        console.log(" VERIFY confirmDelete enabled " + confirmDelete[0])
-        console.log(" VERIFY confirmDelete taskId " + confirmDelete[1])*/
-
-        if(isOpen) {
-
-            let lists = document.getElementsByName("collapseActions")
-            for (let i = 0; i < lists.length; i++) {
-                lists[i].open = false
-            }
-        }
-
-        if(confirmDelete[0]) {
-            deleteTask(confirmDelete[1])
-            navigate(0)
-        }
-
-    }, [confirmDelete])
-
-    
-    const updateTask = async(taskId, index) => {
-
-        const dataToUpload = {
-            done: !index
-        }
-
-        try {
-
-            await TaskService.updateById(taskId, dataToUpload)
-       
-        } catch (ex) {
-            console.log("error to update task")
-        }
-
-    }
-
-    return (
-
-        <>
-           
-            {taskData.map((task, index) => (
-
-                <div className="w-full h-32 border-b border-gray-300 p-2 flex items-center justify-between relative" key={index}>
-
-                    <div className="w-4/5 flex items-center justify-between gap-2">      
-                        
-                        <input
-                            type="checkbox"
-                            name="taskToCheck"
-                            id={`taskToCheck_${task.id}`}
-                            className="appearance-none w-[40px] h-[31px] border-2 border-orange rounded-full bg-white ml-2 checked:bg-green-3 checked:border-12 checked:border-green"
-                            value={task.id}
-                            checked={checkboxStates[index]}
-                            onChange={() => {
-                                handleCheckboxChange(index)
-                                checkTasks(task.id, index)
-                            }}
-                        />
-                   
-
-                        <input type="text" name="taskTitle" id="taskTitle" className="text-2xl bg-transparent outline-none text-wrap text-gray-5 truncate"  value={task.title} style={checkboxStates[index] ? {textDecoration: 'line-through'} : {}}/>
-                        
-                        
-                        <div className="flex items-center text-sm text-red font-bolder absolute bottom-2 left-6">
-                            { checkboxStates[index]
-                                ?   <>
-                                        <MdDone className="text-green"/>
-                                        <p className="text-green">done!</p>
-                                    </>
-                                    
-                                : task?.endAtDate
-                                    ?   <>
-                                            <IoWarningOutline color='red'/>
-                                            <p className="text-red pl-1">Expire in {calcExpirationDate(task?.endAtDate)} days</p>
-                                        </>
-                                    : ""
-                            }
-                        </div>
-
-                    </div>
-
-                    
-                    {isArchived !== true ? (
-                    
-                        <details name="collapseActions" className="w-32 h-1/2 p-2 absolute top-10 right-6">
-
-                            <summary className="list-none w-full h-12 flex justify-end">
-                                <GoChevronDown size={"40px"} className='-z-5'/>
-                            </summary>
-
-                            <div className="w-full h-32 absolute z-40">
-
-                                <button onClick={ () => { navigate(`/todolist-frontend/edit/${checklistData.id}/${task.id}`)} } 
-                                    className="w-full h-1/2 p-2 flex gap-2 items-center justify-center bg-white text-green hover:text-green font-semibold border border-gray-300">
-                                        <MdEdit size={"1.5rem"}/>
-                                        <p>Edit</p>
-                                </button>
-
-                                <button onClick={ () => { openModal(task.id) } }
-                                    className="w-full h-1/2 p-2 flex gap-2 items-center justify-center bg-white text-red hover:text-green font-semibold border border-gray-300">
-
-                                    <FaTrash size={"1.3rem"}/>
-                                    <p>Remove</p>  
-
-                                </button>
-                            </div>
-                                
-                        
-                        </details>
-                    
-                    ) : null}
-                    
-                    
-                    <div className="w-2 h-full absolute top-0 right-0" style={{background: colorPriority(task.priority)}}></div>
-                </div>
-
-            ))}
-
-            <Modal openModal={isOpen}  closeModal={() => { setIsOpen(false) }} confirmDelete={() => {
-                let idTaskRemoved = confirmDelete.splice(1,2)
-                setConfirmDelete([true, idTaskRemoved])
-                }}>
-                <p>Are you sure archive this task?</p>
-            </Modal>
-            
-        </>
-            
-    );
-
-}
+      <Modal
+        openModal={isOpen}
+        closeModal={() => setIsOpen(false)}
+        confirmDelete={() => {
+          let idTaskRemoved = confirmDelete.splice(1, 2);
+          setConfirmDelete([true, idTaskRemoved]);
+        }}
+      >
+        <p>Are you sure archive this task?</p>
+      </Modal>
+    </>
+  );
+};

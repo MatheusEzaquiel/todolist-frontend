@@ -76,7 +76,6 @@ export const Lists = () => {
                   
                 (
                   checklists?.map((checklist, index) => {
-
                     return(
 
                         <List key={index}
